@@ -31,7 +31,7 @@ public class MainController {
             mapController.initialize();
         }
         if (resourcesController != null) {
-            resourcesController.initialize(gameManager);
+            resourcesController.initialize();
         }
         if (buttonsController != null) {
             buttonsController.initialize(gameManager);

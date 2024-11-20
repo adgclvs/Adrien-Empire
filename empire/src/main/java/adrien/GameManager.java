@@ -8,8 +8,9 @@ import adrien.resources.Resource;
 public class GameManager {
 
     public GameManager(int mapWidth, int mapHeight) {
-        Resource.getInstance();
-        MapManager.getInstance(mapWidth, mapHeight);
+        // Resource.getInstance();
+        // MapManager.getInstance(mapWidth, mapHeight);
+        // UseLess if we initialize it in each controller
     }
 
     public boolean addBuilding(BuildingType buildingType, int x, int y) {

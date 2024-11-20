@@ -1,6 +1,7 @@
 package adrien.controllers;
 
 import adrien.GameManager;
+import adrien.MapManager;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -19,6 +20,7 @@ public class MapController {
     public void initialize() {
         gridHeight = 20;
         gridWidth = 40;
+        MapManager.getInstance(gridWidth, gridHeight);
         displayMap();
     }
     
