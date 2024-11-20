@@ -1,13 +1,14 @@
 package adrien.buildings;
 
 import adrien.buildings.BuildingsManager.Building;
+import adrien.buildings.BuildingsManager.BuildingType;
 import adrien.resources.ResourceRequirement;
 import adrien.resources.ResourceType;
 
 public class CementPlant extends Building {
 
     public CementPlant() {
-        super("Cement Plant", 0, 10, 4, 4, 3,
+        super(BuildingType.CEMENT_PLANT, 0, 10, 4, 4, 3,
               new ResourceRequirement[]{
                   new ResourceRequirement(ResourceType.WOOD, 50),
                   new ResourceRequirement(ResourceType.STONE, 50)

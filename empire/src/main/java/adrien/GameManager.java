@@ -3,7 +3,6 @@ package adrien;
 import adrien.buildings.BuildingsManager.Building;
 import adrien.buildings.BuildingsManager.BuildingFactory;
 import adrien.buildings.BuildingsManager.BuildingType;
-import adrien.resources.Resource;
 
 public class GameManager {
 
@@ -58,9 +57,5 @@ public class GameManager {
     //     }
     // }
 
-    public void displayStatus() {
-        MapManager.displayMap();
-        Resource.displayResources();
-    }
 }
 

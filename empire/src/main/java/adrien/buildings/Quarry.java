@@ -1,12 +1,13 @@
 package adrien.buildings;
 
 import adrien.buildings.BuildingsManager.Building;
+import adrien.buildings.BuildingsManager.BuildingType;
 import adrien.resources.ResourceRequirement;
 import adrien.resources.ResourceType;
 
 public class Quarry extends Building {
     public Quarry() {
-        super("Quarry", 2, 30, 2, 2, 2,
+        super(BuildingType.QUARRY, 2, 30, 2, 2, 2,
               new ResourceRequirement[]{
                   new ResourceRequirement(ResourceType.WOOD, 50)
               },

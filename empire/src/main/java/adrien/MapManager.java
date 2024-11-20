@@ -4,6 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import adrien.buildings.BuildingsManager.Building;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
+import javafx.stage.Screen;
 
 public class MapManager {
     public static int width;
@@ -83,9 +87,36 @@ public class MapManager {
         }
     }
 
-    public static void displayMap() {
-        for (Building building : buildings.values()) {
-            System.out.println("Building: " + building.getName() + ", Size: " + building.getWidth() + "x" + building.getHeight());
+     public static void displayMap(GridPane mapPane) {
+        mapPane.getChildren().clear();
+        double screenWidth = Screen.getPrimary().getBounds().getWidth();
+        double cellsize = (screenWidth - 100) / width;
+
+
+        Image grassImage = new Image(MapManager.class.getResourceAsStream("/adrien/images/Grass.png"));
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                ImageView imageView;
+                if (grid[i][j]) {
+                    Position position = new Position(j, i);
+                    Building building = buildings.get(position);
+                    if (building != null) {
+                        imageView = new ImageView(getBuildingImage(building));
+                    } else {
+                        imageView = new ImageView(grassImage);
+                    }
+                } else {
+                    imageView = new ImageView(grassImage);
+                }
+                imageView.setFitWidth(cellsize);
+                imageView.setFitHeight(cellsize);
+                mapPane.add(imageView, j, i);
+            }
         }
+    }
+
+    private static Image getBuildingImage(Building building) {
+        String imagePath = "/adrien/images/buildings/" + building.getType().toString().toLowerCase() + ".png";
+        return new Image(MapManager.class.getResourceAsStream(imagePath));
     }
 }

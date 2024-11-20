@@ -1,12 +1,13 @@
 package adrien.buildings;
 
 import adrien.buildings.BuildingsManager.Building;
+import adrien.buildings.BuildingsManager.BuildingType;
 import adrien.resources.ResourceRequirement;
 import adrien.resources.ResourceType;
 
 public class WoodenCabin extends Building {
     public WoodenCabin() {
-        super("WoodenCabin", 2, 2, 2, 1, 1,
+        super(BuildingType.WOODEN_CABIN, 2, 2, 2, 1, 1,
               new ResourceRequirement[]{
                   new ResourceRequirement(ResourceType.WOOD, 1)
               },

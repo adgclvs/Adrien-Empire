@@ -4,7 +4,7 @@ import adrien.resources.Resource;
 import adrien.resources.ResourceRequirement;
 
 public abstract class Building {
-    private String name;
+    private BuildingType type;
     private int maxInhabitants;
     private int maxWorkers;
     private int currentWorkers;
@@ -15,10 +15,10 @@ public abstract class Building {
     private ResourceRequirement[] consumption;
     private ResourceRequirement[] production;
 
-    protected Building(String name, int maxInhabitants, int maxWorkers,
+    protected Building(BuildingType type, int maxInhabitants, int maxWorkers,
                        int constructionTime, int width, int height, ResourceRequirement[] constructionMaterials,
                        ResourceRequirement[] consumption, ResourceRequirement[] production) {
-        this.name = name;
+        this.type = type;
         this.maxInhabitants = maxInhabitants;
         this.maxWorkers = maxWorkers;
         this.currentWorkers = 0;
@@ -30,8 +30,8 @@ public abstract class Building {
         this.production = production;
     }
 
-    public String getName() {
-        return name;
+    public BuildingType getType() {
+        return type;
     }
 
     public int getMaxInhabitants() {

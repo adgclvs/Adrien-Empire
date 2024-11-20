@@ -3,6 +3,8 @@ package adrien.resources;
 import java.util.HashMap;
 import java.util.Map;
 
+import javafx.scene.image.Image;
+
 public class Resource {
     private static Resource instance;
     private static Map<ResourceType, Integer> resources;
@@ -49,9 +51,8 @@ public class Resource {
         }
     }
 
-    public static void displayResources() {
-        for (Map.Entry<ResourceType, Integer> entry : resources.entrySet()) {
-            System.out.println(entry.getKey() + ": " + entry.getValue());
-        }
+    public static Image getResourceImage(ResourceType resourceType) {
+        String imagePath = "/adrien/images/resources/" + resourceType.toString().toLowerCase() + ".png";
+        return new Image(Resource.class.getResourceAsStream(imagePath));
     }
 }

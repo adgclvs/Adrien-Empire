@@ -26,7 +26,7 @@ public class MainController {
         gridHeight = 20;
         gridWidth = 40;
         gameManager = new GameManager(gridWidth, gridHeight);
-        // Vérifiez que les contrôleurs enfants ne sont pas null
+
         if (mapController != null) {
             mapController.initialize();
         }
@@ -37,6 +37,4 @@ public class MainController {
             buttonsController.initialize(gameManager);
         }
     }
-
-    // Méthodes pour coordonner les interactions entre les contrôleurs
 }

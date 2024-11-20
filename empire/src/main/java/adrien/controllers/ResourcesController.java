@@ -3,7 +3,6 @@ package adrien.controllers;
 import adrien.resources.Resource;
 import adrien.resources.ResourceType;
 import javafx.fxml.FXML;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Label;
 
@@ -71,42 +70,42 @@ public class ResourcesController {
     }
 
     public void updateResourceImages() {
-        double imageWidth = 70; // Largeur des images
-        double imageHeight = 70; // Hauteur des images
+        double imageWidth = 70;
+        double imageHeight = 70;
 
-        foodImage.setImage(new Image(getClass().getResourceAsStream("/adrien/images/resources/food.png")));
+        foodImage.setImage(Resource.getResourceImage(ResourceType.FOOD));
         foodImage.setFitWidth(imageWidth);
         foodImage.setFitHeight(imageHeight);
 
-        woodImage.setImage(new Image(getClass().getResourceAsStream("/adrien/images/resources/wood.png")));
+        woodImage.setImage(Resource.getResourceImage(ResourceType.WOOD));
         woodImage.setFitWidth(imageWidth);
         woodImage.setFitHeight(imageHeight);
 
-        stoneImage.setImage(new Image(getClass().getResourceAsStream("/adrien/images/resources/stone.png")));
+        stoneImage.setImage(Resource.getResourceImage(ResourceType.STONE));
         stoneImage.setFitWidth(imageWidth);
         stoneImage.setFitHeight(imageHeight);
 
-        coalImage.setImage(new Image(getClass().getResourceAsStream("/adrien/images/resources/coal.png")));
+        coalImage.setImage(Resource.getResourceImage(ResourceType.COAL));
         coalImage.setFitWidth(imageWidth);
         coalImage.setFitHeight(imageHeight);
 
-        ironImage.setImage(new Image(getClass().getResourceAsStream("/adrien/images/resources/iron.png")));
+        ironImage.setImage(Resource.getResourceImage(ResourceType.IRON));
         ironImage.setFitWidth(imageWidth);
         ironImage.setFitHeight(imageHeight);
 
-        steelImage.setImage(new Image(getClass().getResourceAsStream("/adrien/images/resources/steel.png")));
+        steelImage.setImage(Resource.getResourceImage(ResourceType.STEEL));
         steelImage.setFitWidth(imageWidth);
         steelImage.setFitHeight(imageHeight);
 
-        cementImage.setImage(new Image(getClass().getResourceAsStream("/adrien/images/resources/cement.png")));
+        cementImage.setImage(Resource.getResourceImage(ResourceType.CEMENT));
         cementImage.setFitWidth(imageWidth);
         cementImage.setFitHeight(imageHeight);
 
-        lumberImage.setImage(new Image(getClass().getResourceAsStream("/adrien/images/resources/lumber.png")));
+        lumberImage.setImage(Resource.getResourceImage(ResourceType.LUMBER));
         lumberImage.setFitWidth(imageWidth);
         lumberImage.setFitHeight(imageHeight);
 
-        toolsImage.setImage(new Image(getClass().getResourceAsStream("/adrien/images/resources/tools.png")));
+        toolsImage.setImage(Resource.getResourceImage(ResourceType.TOOLS));
         toolsImage.setFitWidth(imageWidth);
         toolsImage.setFitHeight(imageHeight);
     }
@@ -123,5 +122,4 @@ public class ResourcesController {
         toolsLabel.setText("" + Resource.getResource(ResourceType.TOOLS));
     }
 
-    // Méthodes pour mettre à jour les ressources
 }
