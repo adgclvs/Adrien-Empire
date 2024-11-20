@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.layout.VBox?>
 
-<VBox spacing="10" prefWidth="200" minWidth="200" maxWidth="200" xmlns:fx="http://javafx.com/fxml" fx:controller="adrien.controllers.ButtonsController">
-    <Button fx:id="addBuildingButton" onAction="#handleAddBuildingButton" text="Add Building"/>
-    <Button text="Supprimer Bâtiment" onAction="#handleRemoveBuildingButton"/>
-</VBox>
+<HBox fx:controller="adrien.controllers.ButtonsController" xmlns:fx="http://javafx.com/fxml">
+    <Button fx:id="buildButton" text="Build"/>
+    <Button fx:id="destroyButton" text="Destroy"/>
+    <!-- Autres boutons -->
+</HBox>

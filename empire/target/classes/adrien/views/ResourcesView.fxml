@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Label?>
 
-<VBox xmlns:fx="http://javafx.com/fxml/1" fx:id="resourcesView" fx:controller="adrien.controllers.ResourcesController" spacing="10" style="-fx-padding: 10;" prefWidth="200" minWidth="200" maxWidth="200">
-    <Label text="Ressources:" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
-    <Label fx:id="woodLabel" text="Bois: 0" />
-    <Label fx:id="stoneLabel" text="Pierre: 0" />
-    <Label fx:id="ironLabel" text="Fer: 0" />
-    <Label fx:id="coalLabel" text="Charbon: 0" />
-    <Label fx:id="steelLabel" text="Acier: 0" />
-    <Label fx:id="toolsLabel" text="Outils: 0" />
-    <Label fx:id="foodLabel" text="Nourriture: 0" />
-</VBox>
+<HBox fx:controller="adrien.controllers.ResourcesController" xmlns:fx="http://javafx.com/fxml">
+    <Label fx:id="foodLabel" text="Food: 0"/>
+    <Label fx:id="woodLabel" text="Wood: 0"/>
+    <Label fx:id="stoneLabel" text="Stone: 0"/>
+    <Label fx:id="coalLabel" text="Coal: 0"/>
+    <Label fx:id="ironLabel" text="Iron: 0"/>
+    <Label fx:id="steelLabel" text="Steel: 0"/>
+    <Label fx:id="cementLabel" text="Cement: 0"/>
+    <Label fx:id="lumberLabel" text="Lumber: 0"/>
+    <Label fx:id="toolsLabel" text="Tools: 0"/>
+</HBox>

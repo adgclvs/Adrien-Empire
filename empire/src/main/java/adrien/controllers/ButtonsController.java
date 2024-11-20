@@ -1,44 +1,22 @@
 package adrien.controllers;
 
+import adrien.GameManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 
 public class ButtonsController {
-    private MainViewController mainViewController;
-    private boolean isSelectingBuildingLocation;
 
     @FXML
-    private Button addBuildingButton;
-
-    // @FXML
-    // private Button removeBuildingButton;
-    
-    public boolean isSelectingBuildingLocation() {
-        return isSelectingBuildingLocation;
-    }
-
-    public void setSelectingBuildingLocation(boolean selectingBuildingLocation){
-        isSelectingBuildingLocation = selectingBuildingLocation;
-    }
+    private Button buildButton;
 
     @FXML
-    public void handleAddBuildingButton() {
-        isSelectingBuildingLocation = !isSelectingBuildingLocation;
-        updateButtonStyle();
+    private Button destroyButton;
+
+    // Autres boutons
+
+    public void initialize(GameManager gameManager) {
+        // Initialisation des boutons
     }
 
-    @FXML
-    public void handleRemoveBuildingButton() {
-        // TODO
-    }
-
-    public void updateButtonStyle() {
-        if (isSelectingBuildingLocation) {
-            addBuildingButton.getStyleClass().remove("button-normal");
-            addBuildingButton.getStyleClass().add("button-selected");
-        } else {
-            addBuildingButton.getStyleClass().remove("button-selected");
-            addBuildingButton.getStyleClass().add("button-normal");
-        }
-    }
+    // Méthodes pour gérer les interactions avec les boutons
 }

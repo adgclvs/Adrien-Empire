@@ -2,6 +2,6 @@
 
 <?import javafx.scene.layout.GridPane?>
 
-<GridPane fx:id="gridPane" xmlns:fx="http://javafx.com/fxml" fx:controller="adrien.controllers.MapController">
-    <!-- Contenu de MapView -->
+<GridPane fx:controller="adrien.controllers.MapController" xmlns:fx="http://javafx.com/fxml" fx:id="mapPane">
+    <!-- La carte sera affichée ici -->
 </GridPane>

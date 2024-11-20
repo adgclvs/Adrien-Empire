@@ -6,8 +6,8 @@ import java.util.Map;
 import adrien.buildings.BuildingsManager.Building;
 
 public class MapManager {
-    private static int width;
-    private static int height;
+    public static int width;
+    public static int height;
     private static boolean[][] grid;
     private static Map<Position, Building> buildings;
     private static MapManager instance;
