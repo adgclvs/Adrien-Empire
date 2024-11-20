@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="adrien.controllers.MainViewController" stylesheets="adrien/styles/style.css">
+    <children>
+        <BorderPane>
+            <top>
+                <fx:include source="ResourcesView.fxml"/>
+            </top>
+            <center>
+                <fx:include source="MapView.fxml"/>
+            </center>
+            <bottom>
+                <fx:include source="ButtonsView.fxml"/>
+            </bottom>
+        </BorderPane>
+    </children>
+</AnchorPane>

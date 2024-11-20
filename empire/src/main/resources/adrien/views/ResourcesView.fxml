@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1" fx:id="resourcesView" fx:controller="adrien.controllers.ResourcesController" spacing="10" style="-fx-padding: 10;" prefWidth="200" minWidth="200" maxWidth="200">
+    <Label text="Ressources:" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
+    <Label fx:id="woodLabel" text="Bois: 0" />
+    <Label fx:id="stoneLabel" text="Pierre: 0" />
+    <Label fx:id="ironLabel" text="Fer: 0" />
+    <Label fx:id="coalLabel" text="Charbon: 0" />
+    <Label fx:id="steelLabel" text="Acier: 0" />
+    <Label fx:id="toolsLabel" text="Outils: 0" />
+    <Label fx:id="foodLabel" text="Nourriture: 0" />
+</VBox>
