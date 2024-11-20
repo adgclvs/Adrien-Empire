@@ -34,7 +34,7 @@ public class MainController {
             resourcesController.initialize();
         }
         if (buttonsController != null) {
-            buttonsController.initialize(gameManager);
+            buttonsController.initialize();
         }
     }
 }
