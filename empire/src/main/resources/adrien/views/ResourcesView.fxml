@@ -1,45 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.control.Label?>
 
-<HBox fx:controller="adrien.controllers.ResourcesController" xmlns:fx="http://javafx.com/fxml" spacing="10" alignment="CENTER_LEFT">
-    <VBox spacing="5" alignment="CENTER">
+<GridPane fx:controller="adrien.controllers.ResourcesController" xmlns:fx="http://javafx.com/fxml" vgap="5" alignment="CENTER">
+    <VBox spacing="2" alignment="CENTER" GridPane.rowIndex="0">
         <ImageView fx:id="foodImage" />
         <Label fx:id="foodLabel" text="0" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
     </VBox>
-    <VBox spacing="5" alignment="CENTER">
+    <VBox spacing="2" alignment="CENTER" GridPane.rowIndex="1">
         <ImageView fx:id="woodImage" />
         <Label fx:id="woodLabel" text="0" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
     </VBox>
-    <VBox spacing="5" alignment="CENTER">
+    <VBox spacing="2" alignment="CENTER" GridPane.rowIndex="2">
         <ImageView fx:id="stoneImage" />
         <Label fx:id="stoneLabel" text="0" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
     </VBox>
-    <VBox spacing="5" alignment="CENTER">
+    <VBox spacing="2" alignment="CENTER" GridPane.rowIndex="3">
         <ImageView fx:id="coalImage" />
         <Label fx:id="coalLabel" text="0" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
     </VBox>
-    <VBox spacing="5" alignment="CENTER">
+    <VBox spacing="2" alignment="CENTER" GridPane.rowIndex="4">
         <ImageView fx:id="ironImage" />
         <Label fx:id="ironLabel" text="0" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
     </VBox>
-    <VBox spacing="5" alignment="CENTER">
+    <VBox spacing="2" alignment="CENTER" GridPane.rowIndex="5">
         <ImageView fx:id="steelImage" />
         <Label fx:id="steelLabel" text="0" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
     </VBox>
-    <VBox spacing="5" alignment="CENTER">
+    <VBox spacing="2" alignment="CENTER" GridPane.rowIndex="6">
         <ImageView fx:id="cementImage" />
         <Label fx:id="cementLabel" text="0" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
     </VBox>
-    <VBox spacing="5" alignment="CENTER">
+    <VBox spacing="2" alignment="CENTER" GridPane.rowIndex="7">
         <ImageView fx:id="lumberImage" />
         <Label fx:id="lumberLabel" text="0" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
     </VBox>
-    <VBox spacing="5" alignment="CENTER">
+    <VBox spacing="2" alignment="CENTER" GridPane.rowIndex="8">
         <ImageView fx:id="toolsImage" />
         <Label fx:id="toolsLabel" text="0" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
     </VBox>
-</HBox>
+</GridPane>

@@ -4,9 +4,11 @@ adrien/buildings/Farm.class
 adrien/resources/Resource.class
 adrien/buildings/BuildingsManager/BuildingType.class
 adrien/resources/ResourceRequirement.class
+adrien/controllers/BuildingsController.class
 adrien/MainApp.class
 adrien/buildings/BuildingsManager/BuildingFactory.class
 adrien/controllers/MapController.class
+adrien/controllers/ButtonController.class
 adrien/buildings/BuildingsManager/Building.class
 adrien/buildings/CementPlant.class
 adrien/buildings/LumberMill.class
@@ -16,7 +18,6 @@ adrien/buildings/BuildingsManager/BuildingFactory$1.class
 adrien/MapManager.class
 adrien/buildings/ToolFactory.class
 adrien/buildings/WoodenCabin.class
-adrien/controllers/ButtonsController.class
 adrien/buildings/SteelMill.class
 adrien/buildings/House.class
 adrien/GameManager.class

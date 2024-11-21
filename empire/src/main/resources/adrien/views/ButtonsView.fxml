@@ -1,18 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 
-<HBox fx:controller="adrien.controllers.ButtonsController" xmlns:fx="http://javafx.com/fxml" spacing="10" alignment="BOTTOM_LEFT">
-    <!-- StackPane pour superposer le menu personnalisé -->
-    <StackPane>
-        <!-- Image du menu qui sert de bouton pour ouvrir le menu -->
-        <ImageView fx:id="menuImage" onMouseClicked="#toggleMenu" />
-    </StackPane>
-    
-    <!-- HBox pour afficher le customMenu avec les bâtiments, en laissant de l'espace -->
-    <HBox fx:id="customMenu" spacing="10" visible="false" style="-fx-background-color: lightgrey; -fx-padding: 10;">
-        <!-- Les images des bâtiments seront ajoutées ici dynamiquement -->
-    </HBox>
+<HBox fx:controller="adrien.controllers.ButtonController" xmlns:fx="http://javafx.com/fxml" spacing="10" alignment="BOTTOM_LEFT">
+    <VBox fx:id="buttonsContainer" spacing="10" style="-fx-background-color: lightgrey; -fx-padding: 10;">
+        <!-- Les boutons seront ajoutés ici dynamiquement -->
+    </VBox>
 </HBox>

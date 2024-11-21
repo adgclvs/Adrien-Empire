@@ -18,23 +18,27 @@ public class MainController {
     @FXML
     private ResourcesController resourcesController;
 
-    @FXML
-    private ButtonsController buttonsController;
+    // @FXML
+    // private ButtonsController buttonsController;
 
     @FXML
-    public void initialize() {
-        gridHeight = 20;
-        gridWidth = 40;
-        gameManager = new GameManager(gridWidth, gridHeight);
+    private BuildingsController buildingsController;
 
-        if (mapController != null) {
-            mapController.initialize();
-        }
-        if (resourcesController != null) {
-            resourcesController.initialize();
-        }
-        if (buttonsController != null) {
-            buttonsController.initialize();
-        }
+        @FXML
+        public void initialize() {
+            gridHeight = 20;
+            gridWidth = 40;
+            gameManager = new GameManager(gridWidth, gridHeight);
+        
+            if (mapController != null) {
+                mapController.initialize();
+            }
+            if (resourcesController != null) {
+                resourcesController.initialize();
+            }
+            if (buildingsController != null) {
+                buildingsController.initialize();
+            }
+        
     }
 }

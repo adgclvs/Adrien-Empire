@@ -6,26 +6,23 @@
 
 <BorderPane fx:controller="adrien.controllers.MainController" xmlns:fx="http://javafx.com/fxml">
     <center>
-        <VBox>
-            <!-- MapView au centre -->
-            <HBox alignment="CENTER">
+        <HBox>
+            <!-- MapView à gauche -->
+            <VBox alignment="CENTER">
                 <fx:include source="MapView.fxml" fx:id="mapView"/>
-            </HBox>
+            </VBox>
 
-            <!-- Barre inférieure avec les boutons et les ressources -->
-            <BorderPane>
-                <!-- Boutons alignés à gauche -->
-                <left>
-                    <fx:include source="ButtonsView.fxml" fx:id="buttonsView"/>
-                </left>
-
-                <!-- Ressources centrées -->
-                <center>
-                    <HBox alignment="CENTER">
-                        <fx:include source="ResourcesView.fxml" fx:id="resourcesView"/>
-                    </HBox>
-                </center>
-            </BorderPane>
-        </VBox>
+            <!-- Ressources à droite -->
+            <VBox alignment="CENTER">
+                <fx:include source="ResourcesView.fxml" fx:id="resourcesView"/>
+            </VBox>
+        </HBox>
     </center>
+
+    <!-- Barre inférieure avec les boutons -->
+    <bottom>
+        <HBox alignment="CENTER">
+            <fx:include source="BuildingsView.fxml" fx:id="buildingsView"/>
+        </HBox>
+    </bottom>
 </BorderPane>

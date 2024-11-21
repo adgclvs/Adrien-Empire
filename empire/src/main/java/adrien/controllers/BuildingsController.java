@@ -3,46 +3,32 @@ package adrien.controllers;
 import java.util.ArrayList;
 import java.util.List;
 
-import adrien.GameManager;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
-public class ButtonsController {
+public class BuildingsController {
 
     @FXML
-    private ImageView menuImage;
+    private HBox listBuildings;
 
     @FXML
-    private HBox customMenu; // HBox pour disposer les images en ligne
+    private VBox buttonsContainer;
 
-    private GameManager gameManager;
+    private ButtonController buttonController;
 
     public void initialize() {
-
-        // Définir l'image du menu
-        String imagePath = "/adrien/images/menu.png";
-        Image image = new Image(getClass().getResourceAsStream(imagePath));
-        if (image.isError()) {
-            System.err.println("Error loading image: " + imagePath);
-        } else {
-            menuImage.setImage(image);
-            menuImage.setFitWidth(100); // Ajustez la largeur de l'image
-            menuImage.setFitHeight(100); // Ajustez la hauteur de l'image
-        }
-
-        loadBuildingImages();
+        loadButtonController(); // Charger ButtonController avant de l'initialiser
+    if (buttonController != null) {
+        buttonController.initialize();
     }
-
-    @FXML
-    private void toggleMenu() {
-        // Basculer l'affichage du menu (visible/invisible)
-        customMenu.setVisible(!customMenu.isVisible());
-    }
+    loadBuildingImages(); // Charger les bâtiments après avoir configuré ButtonController
+}
+    
 
     private void loadBuildingImages() {
         List<String> buildingImages = new ArrayList<>();
@@ -66,7 +52,34 @@ public class ButtonsController {
             // Ajouter une marge au bâtiment pour laisser de l'espace au bouton menu
             HBox.setMargin(buildingImageView, new Insets(0, 10, 0, 10));
 
-            customMenu.getChildren().add(buildingImageView);
+            // Ajouter un gestionnaire d'événements de clic
+            buildingImageView.setOnMouseClicked(event -> {
+                System.out.println("Building clicked: " + imagePath);
+                if (buttonController != null) {
+                    buttonController.showButtons(); // Afficher les boutons
+                } else {
+                    System.out.println("buttonController is null");
+                }
+            });
+
+            listBuildings.getChildren().add(buildingImageView);
         }
     }
+
+    private void loadButtonController() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/adrien/views/ButtonsView.fxml"));
+            VBox buttons = loader.load();
+            buttonController = loader.getController();
+            if (buttonController == null) {
+                System.out.println("buttonController is null after loading FXML");
+            } else {
+                System.out.println("buttonController loaded successfully");
+            }
+            buttonsContainer.getChildren().add(buttons);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

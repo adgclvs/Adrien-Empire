@@ -8,9 +8,10 @@
 /home/adrien/M1/obj/projet/Adrien-Empire/empire/src/main/java/adrien/buildings/Farm.java
 /home/adrien/M1/obj/projet/Adrien-Empire/empire/src/main/java/adrien/buildings/SteelMill.java
 /home/adrien/M1/obj/projet/Adrien-Empire/empire/src/main/java/adrien/buildings/BuildingsManager/Building.java
+/home/adrien/M1/obj/projet/Adrien-Empire/empire/src/main/java/adrien/controllers/ButtonController.java
 /home/adrien/M1/obj/projet/Adrien-Empire/empire/src/main/java/adrien/buildings/WoodenCabin.java
-/home/adrien/M1/obj/projet/Adrien-Empire/empire/src/main/java/adrien/controllers/ButtonsController.java
 /home/adrien/M1/obj/projet/Adrien-Empire/empire/src/main/java/adrien/resources/Resource.java
+/home/adrien/M1/obj/projet/Adrien-Empire/empire/src/main/java/adrien/controllers/BuildingsController.java
 /home/adrien/M1/obj/projet/Adrien-Empire/empire/src/main/java/adrien/buildings/BuildingsManager/BuildingType.java
 /home/adrien/M1/obj/projet/Adrien-Empire/empire/src/main/java/adrien/resources/ResourceRequirement.java
 /home/adrien/M1/obj/projet/Adrien-Empire/empire/src/main/java/adrien/GameManager.java

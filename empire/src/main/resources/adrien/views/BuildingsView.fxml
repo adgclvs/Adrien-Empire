@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox fx:controller="adrien.controllers.BuildingsController" xmlns:fx="http://javafx.com/fxml" spacing="10" alignment="TOP_CENTER">
+    <VBox fx:id="buttonsContainer" spacing="5" style="-fx-background-color: lightgrey; -fx-padding: 10;">
+
+    <HBox fx:id="listBuildings" spacing="10" style="-fx-background-color: lightgrey; -fx-padding: 10;">
+        <!-- Les images des bâtiments seront ajoutées ici dynamiquement -->
+    </HBox>
+</VBox>
