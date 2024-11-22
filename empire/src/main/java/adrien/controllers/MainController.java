@@ -29,6 +29,7 @@ public class MainController {
             gridHeight = 20;
             gridWidth = 40;
             gameManager = new GameManager(gridWidth, gridHeight);
+            gameManager.startGame();
         
             if (mapController != null) {
                 mapController.initialize();

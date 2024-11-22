@@ -1,17 +1,17 @@
 package adrien.controllers;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import adrien.MapManager;
+import adrien.Observer;
+import adrien.buildings.BuildingsManager.Building;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-public class BuildingsController {
+public class BuildingsController implements Observer {
 
     @FXML
     private HBox listBuildings;
@@ -19,67 +19,74 @@ public class BuildingsController {
     @FXML
     private VBox buttonsContainer;
 
-    private ButtonController buttonController;
-
     public void initialize() {
-        loadButtonController(); // Charger ButtonController avant de l'initialiser
-    if (buttonController != null) {
-        buttonController.initialize();
+        MapManager.getInstance(10, 10).addObserver(this);
+        loadBuildingImages();
     }
-    loadBuildingImages(); // Charger les bâtiments après avoir configuré ButtonController
-}
-    
+
+    @Override
+    public void update() {
+        updateBuildingInfo();
+    }
 
     private void loadBuildingImages() {
-        List<String> buildingImages = new ArrayList<>();
-        buildingImages.add("/adrien/images/buildings/apartmentbuilding.png");
-        buildingImages.add("/adrien/images/buildings/cementplant.png");
-        buildingImages.add("/adrien/images/buildings/farm.png");
-        buildingImages.add("/adrien/images/buildings/house.png");
-        buildingImages.add("/adrien/images/buildings/lumbermill.png");
-        buildingImages.add("/adrien/images/buildings/quarry.png");
-        buildingImages.add("/adrien/images/buildings/steelmill.png");
-        buildingImages.add("/adrien/images/buildings/toolfactory.png");
-        buildingImages.add("/adrien/images/buildings/woodencabin.png");
-
-        for (String imagePath : buildingImages) {
+        listBuildings.getChildren().clear();
+        for (Building building : MapManager.getAllBuildings()) {
+            String imagePath = "/adrien/images/buildings/" + building.getType().toString().toLowerCase() + ".png";
             Image buildingImage = new Image(getClass().getResourceAsStream(imagePath));
             ImageView buildingImageView = new ImageView(buildingImage);
             buildingImageView.setFitWidth(100);  // Ajustez la largeur
             buildingImageView.setFitHeight(100); // Ajustez la hauteur
-            buildingImageView.setPreserveRatio(true); 
+            buildingImageView.setPreserveRatio(true);
 
             // Ajouter une marge au bâtiment pour laisser de l'espace au bouton menu
             HBox.setMargin(buildingImageView, new Insets(0, 10, 0, 10));
 
             // Ajouter un gestionnaire d'événements de clic
             buildingImageView.setOnMouseClicked(event -> {
-                System.out.println("Building clicked: " + imagePath);
-                if (buttonController != null) {
-                    buttonController.showButtons(); // Afficher les boutons
-                } else {
-                    System.out.println("buttonController is null");
-                }
+                System.out.println("Building clicked: " + building.getType());
+                // Vous pouvez ajouter plus de logique ici pour gérer le clic sur le bâtiment
             });
 
-            listBuildings.getChildren().add(buildingImageView);
+            VBox buildingBox = new VBox();
+            buildingBox.getChildren().add(buildingImageView);
+
+            Label buildingInfo = new Label(getBuildingInfo(building));
+            buildingBox.getChildren().add(buildingInfo);
+
+            listBuildings.getChildren().add(buildingBox);
         }
     }
 
-    private void loadButtonController() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/adrien/views/ButtonsView.fxml"));
-            VBox buttons = loader.load();
-            buttonController = loader.getController();
-            if (buttonController == null) {
-                System.out.println("buttonController is null after loading FXML");
-            } else {
-                System.out.println("buttonController loaded successfully");
-            }
-            buttonsContainer.getChildren().add(buttons);
-        } catch (Exception e) {
-            e.printStackTrace();
+    private void updateBuildingInfo() {
+        for (int i = 0; i < listBuildings.getChildren().size(); i++) {
+            VBox buildingBox = (VBox) listBuildings.getChildren().get(i);
+            Building building = MapManager.getAllBuildings()[i];
+            Label buildingInfo = (Label) buildingBox.getChildren().get(1);
+            buildingInfo.setText(getBuildingInfo(building));
         }
     }
+
+    private String getBuildingInfo(Building building) {
+        return "Type: " + building.getType() +
+               "\nWorkers: " + building.getCurrentWorkers() +
+               "\nOperational: " + building.isOperational();
+    }
+
+    // private void loadButtonController() {
+    //     try {
+    //         FXMLLoader loader = new FXMLLoader(getClass().getResource("/adrien/views/ButtonsView.fxml"));
+    //         VBox buttons = loader.load();
+    //         buttonController = loader.getController();
+    //         if (buttonController == null) {
+    //             System.out.println("buttonController is null after loading FXML");
+    //         } else {
+    //             System.out.println("buttonController loaded successfully");
+    //         }
+    //         buttonsContainer.getChildren().add(buttons);
+    //     } catch (Exception e) {
+    //         e.printStackTrace();
+    //     }
+    // }
 
 }

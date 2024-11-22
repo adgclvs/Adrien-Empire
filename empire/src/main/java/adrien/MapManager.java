@@ -1,6 +1,8 @@
 package adrien;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import adrien.buildings.BuildingsManager.Building;
@@ -15,13 +17,18 @@ public class MapManager {
     private static boolean[][] grid;
     private static Map<Position, Building> buildings;
     private static MapManager instance;
+    private List<Observer> observers;
 
+    /*************************************CONSTRUCTOR***************************************** */
     private MapManager(int width, int height) {
         MapManager.width = width;
         MapManager.height = height;
         MapManager.grid = new boolean[height][width];
         MapManager.buildings = new HashMap<>();
+        this.observers = new ArrayList<>();
     }
+
+    /*************************************INSTANCE***************************************** */
 
     public static MapManager getInstance(int width, int height) {
         if (instance == null) {
@@ -30,14 +37,32 @@ public class MapManager {
         return instance;
     }
 
-    public static Map<Position, Building> getPositionedBuildings() {
+    /*************************************GETTER***************************************** */
+
+    public static Map<Position, Building> getPositionnedBuildings() {
         return buildings;
     }
+
+    public static Building[] getAllBuildings() {
+        return buildings.values().toArray(new Building[0]);
+    }
+
+    public static Building findBuilding(Position position) {
+        return buildings.get(position);
+    }
+
+    private static Image getBuildingImage(Building building) {
+        String imagePath = "/adrien/images/buildings/" + building.getType().toString().toLowerCase() + ".png";
+        return new Image(MapManager.class.getResourceAsStream(imagePath));
+    }
+
+    /*************************************BUILDINGS***************************************** */
 
     public static boolean addBuilding(Position position, Building building) {
         if (!isSpaceAvailable(building, position)) return false;
         buildings.put(position, building);
         occupySpace(building, position);
+        instance.notifyObservers();
         return true;
     }
 
@@ -45,10 +70,14 @@ public class MapManager {
         Building building = buildings.remove(position);
         if (building != null) {
             deOccupySpace(building, position);
+            instance.notifyObservers();
             return true;
         }
+        instance.notifyObservers();
         return false;
     }
+
+    /*************************************SPACE***************************************** */
 
     private static boolean isSpaceAvailable(Building building, Position position) {
         int x = position.getX();
@@ -61,10 +90,6 @@ public class MapManager {
             }
         }
         return true;
-    }
-
-    public static Building findBuilding(Position position) {
-        return buildings.get(position);
     }
 
     private static void occupySpace(Building building, Position position) {
@@ -86,6 +111,8 @@ public class MapManager {
             }
         }
     }
+
+    /*************************************DISPLAY***************************************** */
 
      public static void displayMap(GridPane mapPane) {
         mapPane.getChildren().clear();
@@ -115,8 +142,18 @@ public class MapManager {
         }
     }
 
-    private static Image getBuildingImage(Building building) {
-        String imagePath = "/adrien/images/buildings/" + building.getType().toString().toLowerCase() + ".png";
-        return new Image(MapManager.class.getResourceAsStream(imagePath));
+    /*************************************OBSERVER***************************************** */
+    public void addObserver(Observer observer) {
+        observers.add(observer);
+    }
+
+    public void removeObserver(Observer observer) {
+        observers.remove(observer);
+    }
+
+    private void notifyObservers() {
+        for (Observer observer : observers) {
+            observer.update();
+        }
     }
 }

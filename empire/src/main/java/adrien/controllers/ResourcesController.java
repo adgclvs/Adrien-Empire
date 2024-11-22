@@ -1,12 +1,13 @@
 package adrien.controllers;
 
+import adrien.Observer;
 import adrien.resources.Resource;
 import adrien.resources.ResourceType;
 import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Label;
 
-public class ResourcesController {
+public class ResourcesController implements Observer {
 
     @FXML
     private ImageView foodImage;
@@ -64,8 +65,13 @@ public class ResourcesController {
 
     @FXML
     public void initialize() {
-        Resource.getInstance();
+        Resource.getInstance().addObserver(this);
         updateResourceImages();
+        updateResourceLabels();
+    }
+
+    @Override
+    public void update() {
         updateResourceLabels();
     }
 
