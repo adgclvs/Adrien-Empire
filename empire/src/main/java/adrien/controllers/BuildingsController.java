@@ -2,9 +2,10 @@ package adrien.controllers;
 
 import adrien.MapManager;
 import adrien.Observer;
+import adrien.SharedState;
 import adrien.buildings.BuildingsManager.Building;
+import adrien.buildings.BuildingsManager.BuildingType;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -19,8 +20,10 @@ public class BuildingsController implements Observer {
     @FXML
     private VBox buttonsContainer;
 
+    private BuildingType selectedBuildingType;
+
     public void initialize() {
-        MapManager.getInstance(10, 10).addObserver(this);
+        MapManager.getInstance().addObserver(this);
         loadBuildingImages();
     }
 
@@ -29,43 +32,59 @@ public class BuildingsController implements Observer {
         updateBuildingInfo();
     }
 
+
+    public BuildingType getSelectedBuildingType() {
+        return selectedBuildingType;
+    }
+
+    public void clearSelectedBuildingType() {
+        this.selectedBuildingType = null;
+    }
+
     private void loadBuildingImages() {
         listBuildings.getChildren().clear();
-        for (Building building : MapManager.getAllBuildings()) {
-            String imagePath = "/adrien/images/buildings/" + building.getType().toString().toLowerCase() + ".png";
+        for (BuildingType buildingType : BuildingType.values()) {
+            String imagePath = "/adrien/images/buildings/" + buildingType.toString().toLowerCase() + ".png";
             Image buildingImage = new Image(getClass().getResourceAsStream(imagePath));
             ImageView buildingImageView = new ImageView(buildingImage);
-            buildingImageView.setFitWidth(100);  // Ajustez la largeur
-            buildingImageView.setFitHeight(100); // Ajustez la hauteur
+            buildingImageView.setFitWidth(100);
+            buildingImageView.setFitHeight(100);
             buildingImageView.setPreserveRatio(true);
-
-            // Ajouter une marge au bâtiment pour laisser de l'espace au bouton menu
-            HBox.setMargin(buildingImageView, new Insets(0, 10, 0, 10));
-
-            // Ajouter un gestionnaire d'événements de clic
+    
             buildingImageView.setOnMouseClicked(event -> {
-                System.out.println("Building clicked: " + building.getType());
-                // Vous pouvez ajouter plus de logique ici pour gérer le clic sur le bâtiment
+                SharedState.setSelectedBuildingType(buildingType);  // Mise à jour du SharedState avec le type sélectionné
+                System.out.println("Selected building: " + buildingType);
             });
-
-            VBox buildingBox = new VBox();
-            buildingBox.getChildren().add(buildingImageView);
-
-            Label buildingInfo = new Label(getBuildingInfo(building));
-            buildingBox.getChildren().add(buildingInfo);
-
+    
+            VBox buildingBox = new VBox(buildingImageView, new Label(buildingType.toString()));
             listBuildings.getChildren().add(buildingBox);
         }
     }
-
+    
     private void updateBuildingInfo() {
+        Building[] allBuildings = MapManager.getAllBuildings();
         for (int i = 0; i < listBuildings.getChildren().size(); i++) {
             VBox buildingBox = (VBox) listBuildings.getChildren().get(i);
-            Building building = MapManager.getAllBuildings()[i];
-            Label buildingInfo = (Label) buildingBox.getChildren().get(1);
-            buildingInfo.setText(getBuildingInfo(building));
+            if (i < allBuildings.length) {
+                Building building = allBuildings[i];
+                Label buildingInfo = (Label) buildingBox.getChildren().get(1);
+                buildingInfo.setText(getBuildingInfo(building));
+            } else {
+                // Si le nombre de bâtiments est inférieur au nombre de vues, effacez les informations restantes
+                Label buildingInfo = (Label) buildingBox.getChildren().get(1);
+                buildingInfo.setText("");
+            }
         }
     }
+
+    // private void updateBuildingInfo() {
+    //     for (int i = 0; i < listBuildings.getChildren().size(); i++) {
+    //         VBox buildingBox = (VBox) listBuildings.getChildren().get(i);
+    //         Building building = MapManager.getAllBuildings()[i];
+    //         Label buildingInfo = (Label) buildingBox.getChildren().get(1);
+    //         buildingInfo.setText(getBuildingInfo(building));
+    //     }
+    // }
 
     private String getBuildingInfo(Building building) {
         return "Type: " + building.getType() +

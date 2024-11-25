@@ -4,25 +4,24 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.HBox?>
 
-<BorderPane fx:controller="adrien.controllers.MainController" xmlns:fx="http://javafx.com/fxml">
-    <center>
-        <HBox>
-            <!-- MapView à gauche -->
-            <VBox alignment="CENTER">
-                <fx:include source="MapView.fxml" fx:id="mapView"/>
-            </VBox>
+<BorderPane fx:id="mainPane" fx:controller="adrien.controllers.MainController" xmlns:fx="http://javafx.com/fxml" >
 
-            <!-- Ressources à droite -->
-            <VBox alignment="CENTER">
-                <fx:include source="ResourcesView.fxml" fx:id="resourcesView"/>
-            </VBox>
-        </HBox>
-    </center>
-
-    <!-- Barre inférieure avec les boutons -->
-    <bottom>
-        <HBox alignment="CENTER">
+    <!-- Carte en haut à gauche -->
+    <left>
+        <VBox alignment="TOP_LEFT" >
+            <fx:include source="MapView.fxml" fx:id="mapView"/>
+        </VBox>
+        <HBox alignment="CENTER" >
             <fx:include source="BuildingsView.fxml" fx:id="buildingsView"/>
         </HBox>
-    </bottom>
+    </left>
+
+
+    <!-- Ressources à droite de la carte -->
+    <right>
+        <VBox alignment="TOP_RIGHT">
+            <fx:include source="ResourcesView.fxml" fx:id="resourcesView"/>
+        </VBox>
+    </right>
+
 </BorderPane>

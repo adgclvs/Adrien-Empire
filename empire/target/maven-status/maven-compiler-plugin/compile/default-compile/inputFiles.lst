@@ -1,12 +1,14 @@
 /home/adrien/M1/obj/projet/Adrien-Empire/empire/src/main/java/adrien/Observer.java
 /home/adrien/M1/obj/projet/Adrien-Empire/empire/src/main/java/adrien/buildings/BuildingsManager/BuildingFactory.java
 /home/adrien/M1/obj/projet/Adrien-Empire/empire/src/main/java/adrien/buildings/CementPlant.java
+/home/adrien/M1/obj/projet/Adrien-Empire/empire/src/main/java/adrien/SharedState.java
 /home/adrien/M1/obj/projet/Adrien-Empire/empire/src/main/java/adrien/buildings/Farm.java
 /home/adrien/M1/obj/projet/Adrien-Empire/empire/src/main/java/adrien/buildings/BuildingsManager/Building.java
 /home/adrien/M1/obj/projet/Adrien-Empire/empire/src/main/java/adrien/buildings/WoodenCabin.java
 /home/adrien/M1/obj/projet/Adrien-Empire/empire/src/main/java/adrien/resources/Resource.java
 /home/adrien/M1/obj/projet/Adrien-Empire/empire/src/main/java/adrien/buildings/BuildingsManager/BuildingType.java
 /home/adrien/M1/obj/projet/Adrien-Empire/empire/src/main/java/adrien/Position.java
+/home/adrien/M1/obj/projet/Adrien-Empire/empire/src/main/java/adrien/Observable.java
 /home/adrien/M1/obj/projet/Adrien-Empire/empire/src/main/java/adrien/MainApp.java
 /home/adrien/M1/obj/projet/Adrien-Empire/empire/src/main/java/adrien/buildings/Quarry.java
 /home/adrien/M1/obj/projet/Adrien-Empire/empire/src/main/java/adrien/buildings/ApartmentBuilding.java

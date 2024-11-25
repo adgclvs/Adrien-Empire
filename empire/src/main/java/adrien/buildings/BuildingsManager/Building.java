@@ -2,13 +2,10 @@ package adrien.buildings.BuildingsManager;
 
 import adrien.resources.Resource;
 import adrien.resources.ResourceRequirement;
-import adrien.Observer;
-
-import java.util.ArrayList;
-import java.util.List;
+import adrien.Observable;
 
 
-public abstract class Building {
+public abstract class Building extends Observable{
     private final int tick_in_hour = 24;
 
     private BuildingType type;
@@ -23,18 +20,18 @@ public abstract class Building {
 
     private int width;
     private int height;
+    
 
     private ResourceRequirement[] constructionMaterials;
     private ResourceRequirement[] consumption;
     private ResourceRequirement[] production;
-
-    private List<Observer> observers;
 
      /*************************************CONSTRUCTOR***************************************** */
 
     protected Building(BuildingType type, int maxInhabitants, int maxWorkers,
                        int constructionTime, int width, int height, ResourceRequirement[] constructionMaterials,
                        ResourceRequirement[] consumption, ResourceRequirement[] production) {
+                        super();
         this.type = type;
         this.maxInhabitants = maxInhabitants;
         this.maxWorkers = maxWorkers;
@@ -47,7 +44,6 @@ public abstract class Building {
         this.constructionMaterials = constructionMaterials;
         this.consumption = consumption;
         this.production = production;
-        this.observers = new ArrayList<>();
     }
 
      /*************************************GETTER***************************************** */
@@ -132,34 +128,33 @@ public abstract class Building {
     }
 
     public boolean consumeResources() {
-        for(ResourceRequirement resourceRequirement : consumption){
-            ResourceRequirement newResourceRequirement = new ResourceRequirement(resourceRequirement.getResourceType(), resourceRequirement.getQuantity() * currentWorkers);
-            if(!Resource.consumeResource(newResourceRequirement)){
-                return false;
+        boolean hasEnoughResources = true;
+    
+        for (ResourceRequirement resourceRequirement : consumption) {
+            ResourceRequirement newResourceRequirement = new ResourceRequirement(
+                resourceRequirement.getResourceType(),
+                resourceRequirement.getQuantity() * currentWorkers
+            );
+    
+            if (!Resource.consumeResource(newResourceRequirement)) {
+                hasEnoughResources = false;
+                break;
             }
         }
-        return true;
+    
+        // Vérifier si l'état opérationnel a changé
+        if (hasEnoughResources != isOperational) {
+            isOperational = hasEnoughResources;
+            notifyObservers(); // Notifier uniquement si l'état change
+        }
+    
+        return hasEnoughResources;
     }
+    
 
     public void costBuildingResources(){
         for(ResourceRequirement resourceRequirement : constructionMaterials){
             Resource.consumeResource(resourceRequirement);
-        }
-    }
-
-        /*************************************OBSERVER***************************************** */
-
-    public void addObserver(Observer observer) {
-        observers.add(observer);
-    }
-
-    public void removeObserver(Observer observer) {
-        observers.remove(observer);
-    }
-
-    private void notifyObservers() {
-        for (Observer observer : observers) {
-            observer.update();
         }
     }
 }
