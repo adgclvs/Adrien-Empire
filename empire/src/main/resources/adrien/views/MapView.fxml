@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
 
-<GridPane fx:controller="adrien.controllers.MapController" xmlns:fx="http://javafx.com/fxml" fx:id="mapPane">
-    <!-- La carte sera affichée ici -->
-</GridPane>
+<StackPane fx:controller="adrien.controllers.MapController" xmlns:fx="http://javafx.com/fxml" fx:id="mapPane">
+    <!-- Utilisation d'un StackPane pour superposer les calques -->
+
+    <!-- Le GridPane qui contient les images d'herbe -->
+    <GridPane fx:id="grassGrid" />
+
+    <!-- Le Pane qui contient les bâtiments, superposé sur le GridPane -->
+    <Pane fx:id="buildingPane" />
+</StackPane>

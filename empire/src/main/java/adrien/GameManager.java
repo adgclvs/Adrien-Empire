@@ -80,8 +80,8 @@ public class GameManager {
     }
 
     public boolean addBuilding(BuildingType buildingType, int x, int y) {
-        Building newBuilding = BuildingFactory.createBuilding(buildingType);
         Position position = new Position(x, y);
+        Building newBuilding = BuildingFactory.createBuilding(buildingType,position);
         return MapManager.addBuilding(position, newBuilding);
     }
 

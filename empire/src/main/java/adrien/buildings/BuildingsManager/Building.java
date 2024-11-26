@@ -3,6 +3,7 @@ package adrien.buildings.BuildingsManager;
 import adrien.resources.Resource;
 import adrien.resources.ResourceRequirement;
 import adrien.Observable;
+import adrien.Position;
 
 
 public abstract class Building extends Observable{
@@ -21,6 +22,7 @@ public abstract class Building extends Observable{
     private int width;
     private int height;
     
+    private Position origin;
 
     private ResourceRequirement[] constructionMaterials;
     private ResourceRequirement[] consumption;
@@ -28,7 +30,7 @@ public abstract class Building extends Observable{
 
      /*************************************CONSTRUCTOR***************************************** */
 
-    protected Building(BuildingType type, int maxInhabitants, int maxWorkers,
+    protected Building(Position position,BuildingType type, int maxInhabitants, int maxWorkers,
                        int constructionTime, int width, int height, ResourceRequirement[] constructionMaterials,
                        ResourceRequirement[] consumption, ResourceRequirement[] production) {
                         super();
@@ -44,6 +46,7 @@ public abstract class Building extends Observable{
         this.constructionMaterials = constructionMaterials;
         this.consumption = consumption;
         this.production = production;
+        this.origin = position;
     }
 
      /*************************************GETTER***************************************** */
@@ -90,6 +93,10 @@ public abstract class Building extends Observable{
 
     public ResourceRequirement[] getProduction() {
         return production;
+    }
+
+    public Position getOrigin() {
+        return origin;
     }
 
      /*************************************SETTER***************************************** */
