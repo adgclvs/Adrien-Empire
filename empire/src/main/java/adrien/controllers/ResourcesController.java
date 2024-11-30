@@ -65,12 +65,12 @@ public class ResourcesController implements Observer {
     @FXML
     private Label toolsLabel;
 
-    private GameManager gameManager;
+    // private GameManager gameManager;
 
-    public void setGameManager(GameManager gameManager) {
-        this.gameManager = gameManager;
-        // gameManager.addObserver(this); // Ajouter ce contrôleur comme observateur
-    }
+    // public void setGameManager(GameManager gameManager) {
+    //     this.gameManager = gameManager;
+    //     // gameManager.addObserver(this); // Ajouter ce contrôleur comme observateur
+    // }
 
     @FXML
     public void initialize() {
@@ -82,8 +82,6 @@ public class ResourcesController implements Observer {
     @Override
     public void update() {
         Platform.runLater(() -> {
-
-            System.out.println("---------------Resources updated.");
             updateResourceLabels();
         });
     }

@@ -2,8 +2,10 @@ package adrien.resources;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import adrien.Observer;
 import javafx.scene.image.Image;
@@ -12,13 +14,13 @@ public class Resource {
     private static final Map<String, Image> imageCache = new HashMap<>();
     private static Resource instance;
     private static Map<ResourceType, Integer> resources;
-    private List<Observer> observers;
+    private Set<Observer> observers;
 
      /*************************************CONSTRUCTOR***************************************** */
 
     private Resource() {
         resources = new HashMap<>();
-        observers = new ArrayList<>();
+        observers = new HashSet<>();
         resources.put(ResourceType.FOOD, 100);
         resources.put(ResourceType.WOOD, 50);
         resources.put(ResourceType.STONE, 30);
@@ -89,7 +91,6 @@ public class Resource {
         int amount = resourceRequirement.getQuantity();
         int currentAmount = resources.getOrDefault(resourceType, 0);
         resources.put(resourceType, currentAmount + amount);
-        getInstance().notifyObservers();
     }
 
     public static boolean consumeResource(ResourceRequirement resourceRequirement) {
@@ -99,7 +100,6 @@ public class Resource {
         int currentAmount = resources.getOrDefault(resourceType, 0);
         if (currentAmount >= amount) {
             resources.put(resourceType, currentAmount - amount);
-            getInstance().notifyObservers();
             return true;
         } else {
             System.out.println("Not enough " + resourceType);
@@ -117,7 +117,7 @@ public class Resource {
         observers.remove(observer);
     }
 
-    private void notifyObservers() {
+    public void notifyObserversAtEndOfTick() {
         for (Observer observer : observers) {
             observer.update();
         }

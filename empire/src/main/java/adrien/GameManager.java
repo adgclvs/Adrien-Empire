@@ -49,6 +49,7 @@ public class GameManager extends Observable{
             notifyObservers();
             System.out.println("Resources updated (24-hour cycle).");
         }
+        Resource.getInstance().notifyObserversAtEndOfTick();
         updateBuildingStatuses();
     }
 
@@ -87,10 +88,9 @@ public class GameManager extends Observable{
     }
 
     private void updateEatingInhabitants() {
-        for (int i = 0; i < Inhabitants.getNumberInhabitants(); i++) {
-            ResourceRequirement resourceRequirement = new ResourceRequirement(ResourceType.FOOD, 1);
-            Resource.consumeResource(resourceRequirement);
-        }
+        ResourceRequirement resourceRequirement = new ResourceRequirement(ResourceType.FOOD, Inhabitants.getNumberInhabitants());
+        Resource.consumeResource(resourceRequirement);
+        
     }
 
     public boolean addBuilding(BuildingType buildingType, int x, int y) {

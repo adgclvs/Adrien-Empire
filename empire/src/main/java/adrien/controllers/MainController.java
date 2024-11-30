@@ -40,33 +40,32 @@ public class MainController {
             gameManager = new GameManager(gridWidth, gridHeight);
             gameManager.startGame();
 
-            // Passer le GameManager et BuildingsController au MapController
+            // Initialiser les contrôleurs
             if (mapController != null) {
                 mapController.setGameManager(gameManager);
                 mapController.setBuildingsController(buildingsController);
                 mapController.initialize();
-            } else {
-                System.out.println("MapController is not set.");
+            } 
+            if (resourcesController != null) {
+                resourcesController.initialize();
+            }
+            if (buildingsController != null) {
+                buildingsController.initialize();
             }
 
             // Ajouter les vues au BorderPane principal
             mainPane.setLeft(mapView);
             mainPane.setBottom(buildingsView);
             mainPane.setRight(resourcesView);
-
-            // Initialiser les autres contrôleurs
-            if (resourcesController != null) {
-                resourcesController.setGameManager(gameManager);
-                resourcesController.initialize();
-            }
-            if (buildingsController != null) {
-                buildingsController.initialize();
-            }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * Stop le timer du jeu lorsque la fenêtre se ferme
+     * @param primaryStage
+     */
     public void setPrimaryStage(Stage primaryStage) {
         // Ajouter un gestionnaire d'événements pour l'événement de fermeture de la fenêtre
         primaryStage.setOnCloseRequest(event -> {
@@ -74,11 +73,16 @@ public class MainController {
         });
     }
 
+    /**
+     * Charger une vue FXML et renvoyer le panneau
+     * @param fxmlPath
+     * @return
+     * @throws IOException
+     */
     private Pane loadView(String fxmlPath) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
         Pane pane = loader.load();
 
-        // Injecter le contrôleur si nécessaire
         if (fxmlPath.contains("BuildingsView")) {
             buildingsController = loader.getController();
         } else if (fxmlPath.contains("MapView")) {
