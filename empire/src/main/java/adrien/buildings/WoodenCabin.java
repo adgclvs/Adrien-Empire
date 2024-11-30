@@ -18,7 +18,6 @@ public class WoodenCabin extends Building {
                   new ResourceRequirement(ResourceType.WOOD, 2),
                   new ResourceRequirement(ResourceType.FOOD, 2)
               });
-        costBuildingResources();
     }
 
 }

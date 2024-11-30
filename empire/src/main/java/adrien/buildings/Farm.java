@@ -9,18 +9,14 @@ import adrien.resources.ResourceType;
 public class Farm extends Building {
 
     public Farm(Position pos) {
-        super(pos,BuildingType.FARM, 0, 10, 4, 4, 3,
+        super(pos,BuildingType.FARM, 5, 3, 1, 3, 3,
               new ResourceRequirement[]{
-                  new ResourceRequirement(ResourceType.WOOD, 50),
-                  new ResourceRequirement(ResourceType.STONE, 50)
+                  new ResourceRequirement(ResourceType.WOOD, 5),
+                  new ResourceRequirement(ResourceType.STONE, 5)
               },
+              null,
               new ResourceRequirement[]{
-                  new ResourceRequirement(ResourceType.STONE, 4),
-                  new ResourceRequirement(ResourceType.COAL, 4)
-              },
-              new ResourceRequirement[]{
-                  new ResourceRequirement(ResourceType.CEMENT, 4)
+                  new ResourceRequirement(ResourceType.FOOD, 10)
               });
-              costBuildingResources();
     }
 }

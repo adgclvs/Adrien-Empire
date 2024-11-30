@@ -19,6 +19,5 @@ public class LumberMill extends Building {
               new ResourceRequirement[]{
                   new ResourceRequirement(ResourceType.LUMBER, 4)
               });
-        costBuildingResources();
     }
 }

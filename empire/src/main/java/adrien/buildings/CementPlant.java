@@ -21,6 +21,5 @@ public class CementPlant extends Building {
               new ResourceRequirement[]{
                   new ResourceRequirement(ResourceType.CEMENT, 4)
               });
-        costBuildingResources();
     }
 }

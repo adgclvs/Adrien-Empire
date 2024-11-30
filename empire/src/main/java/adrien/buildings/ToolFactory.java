@@ -21,6 +21,5 @@ public class ToolFactory extends Building {
               new ResourceRequirement[]{
                   new ResourceRequirement(ResourceType.TOOLS, 4)
               });
-        costBuildingResources();
     }
 }

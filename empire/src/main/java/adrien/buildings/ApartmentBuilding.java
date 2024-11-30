@@ -16,7 +16,6 @@ public class ApartmentBuilding extends Building {
               },
               null,
               null);
-        costBuildingResources();
     }
 
 }

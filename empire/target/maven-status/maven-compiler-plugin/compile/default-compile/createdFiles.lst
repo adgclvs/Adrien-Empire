@@ -1,6 +1,7 @@
 adrien/Observable.class
 adrien/SharedState.class
 adrien/resources/ResourceType.class
+adrien/ImageCache.class
 adrien/controllers/ResourcesController.class
 adrien/buildings/Farm.class
 adrien/resources/Resource.class

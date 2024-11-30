@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 public class MainController {
     private int gridHeight;
@@ -55,6 +56,7 @@ public class MainController {
 
             // Initialiser les autres contrôleurs
             if (resourcesController != null) {
+                resourcesController.setGameManager(gameManager);
                 resourcesController.initialize();
             }
             if (buildingsController != null) {
@@ -63,6 +65,13 @@ public class MainController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void setPrimaryStage(Stage primaryStage) {
+        // Ajouter un gestionnaire d'événements pour l'événement de fermeture de la fenêtre
+        primaryStage.setOnCloseRequest(event -> {
+            gameManager.stopGame();
+        });
     }
 
     private Pane loadView(String fxmlPath) throws IOException {

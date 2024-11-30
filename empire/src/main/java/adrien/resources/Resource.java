@@ -9,6 +9,7 @@ import adrien.Observer;
 import javafx.scene.image.Image;
 
 public class Resource {
+    private static final Map<String, Image> imageCache = new HashMap<>();
     private static Resource instance;
     private static Map<ResourceType, Integer> resources;
     private List<Observer> observers;
@@ -48,10 +49,39 @@ public class Resource {
         return resources;
     }
 
-    public static Image getResourceImage(ResourceType resourceType) {
-        String imagePath = "/adrien/images/resources/" + resourceType.toString().toLowerCase() + ".png";
-        return new Image(Resource.class.getResourceAsStream(imagePath));
+    public static boolean haveAllResources(ResourceRequirement[] resourceRequirements) {
+        if (resourceRequirements == null) {
+            System.out.println("Resource requirements are not initialized.");
+            return false;
+        }
+        for (ResourceRequirement resourceRequirement : resourceRequirements) {
+            ResourceType resourceType = resourceRequirement.getResourceType();
+            int amount = resourceRequirement.getQuantity();
+            int currentAmount = resources.getOrDefault(resourceType, 0);
+            if (currentAmount < amount) {
+                return false;
+            }
+        }
+        return true;
     }
+
+    public static Image getResourceImage(ResourceType resourceType) {
+        String resourceTypeString = resourceType.toString();
+        if (imageCache.containsKey(resourceTypeString)) {
+            return imageCache.get(resourceTypeString);
+        }
+
+        // Charger l'image uniquement si elle n'est pas déjà en cache
+        try {
+            Image image = new Image(Resource.class.getResourceAsStream("/adrien/images/resources/" + resourceTypeString.toLowerCase() + ".png"));
+            imageCache.put(resourceTypeString, image);
+            return image;
+        } catch (Exception e) {
+            System.err.println("Failed to load image for resource: " + resourceTypeString);
+            return null;
+        }
+    }
+
      /*************************************RESOURCES***************************************** */
 
      public static void addResource(ResourceRequirement resourceRequirement) {
@@ -65,6 +95,7 @@ public class Resource {
     public static boolean consumeResource(ResourceRequirement resourceRequirement) {
         ResourceType resourceType = resourceRequirement.getResourceType();
         int amount = resourceRequirement.getQuantity();
+        System.out.println("Consuming " + amount + " " + resourceType);
         int currentAmount = resources.getOrDefault(resourceType, 0);
         if (currentAmount >= amount) {
             resources.put(resourceType, currentAmount - amount);

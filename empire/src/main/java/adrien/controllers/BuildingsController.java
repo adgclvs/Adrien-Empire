@@ -29,7 +29,7 @@ public class BuildingsController implements Observer {
 
     @Override
     public void update() {
-        updateBuildingInfo();
+        // updateBuildingInfo();
     }
 
 
@@ -61,21 +61,21 @@ public class BuildingsController implements Observer {
         }
     }
     
-    private void updateBuildingInfo() {
-        Building[] allBuildings = MapManager.getAllBuildings();
-        for (int i = 0; i < listBuildings.getChildren().size(); i++) {
-            VBox buildingBox = (VBox) listBuildings.getChildren().get(i);
-            if (i < allBuildings.length) {
-                Building building = allBuildings[i];
-                Label buildingInfo = (Label) buildingBox.getChildren().get(1);
-                buildingInfo.setText(getBuildingInfo(building));
-            } else {
-                // Si le nombre de bâtiments est inférieur au nombre de vues, effacez les informations restantes
-                Label buildingInfo = (Label) buildingBox.getChildren().get(1);
-                buildingInfo.setText("");
-            }
-        }
-    }
+    // private void updateBuildingInfo() {
+    //     Building[] allBuildings = MapManager.getAllBuildings();
+    //     for (int i = 0; i < listBuildings.getChildren().size(); i++) {
+    //         VBox buildingBox = (VBox) listBuildings.getChildren().get(i);
+    //         if (i < allBuildings.length) {
+    //             Building building = allBuildings[i];
+    //             Label buildingInfo = (Label) buildingBox.getChildren().get(1);
+    //             buildingInfo.setText(getBuildingInfo(building));
+    //         } else {
+    //             // Si le nombre de bâtiments est inférieur au nombre de vues, effacez les informations restantes
+    //             Label buildingInfo = (Label) buildingBox.getChildren().get(1);
+    //             buildingInfo.setText("");
+    //         }
+    //     }
+    // }
 
     // private void updateBuildingInfo() {
     //     for (int i = 0; i < listBuildings.getChildren().size(); i++) {
@@ -86,7 +86,7 @@ public class BuildingsController implements Observer {
     //     }
     // }
 
-    private String getBuildingInfo(Building building) {
+    public String getBuildingInfo(Building building) {
         return "Type: " + building.getType() +
                "\nWorkers: " + building.getCurrentWorkers() +
                "\nOperational: " + building.isOperational();

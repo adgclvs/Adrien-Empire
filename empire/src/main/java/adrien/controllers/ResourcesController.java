@@ -1,8 +1,10 @@
 package adrien.controllers;
 
+import adrien.GameManager;
 import adrien.Observer;
 import adrien.resources.Resource;
 import adrien.resources.ResourceType;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Label;
@@ -63,6 +65,13 @@ public class ResourcesController implements Observer {
     @FXML
     private Label toolsLabel;
 
+    private GameManager gameManager;
+
+    public void setGameManager(GameManager gameManager) {
+        this.gameManager = gameManager;
+        // gameManager.addObserver(this); // Ajouter ce contrôleur comme observateur
+    }
+
     @FXML
     public void initialize() {
         Resource.getInstance().addObserver(this);
@@ -72,7 +81,11 @@ public class ResourcesController implements Observer {
 
     @Override
     public void update() {
-        updateResourceLabels();
+        Platform.runLater(() -> {
+
+            System.out.println("---------------Resources updated.");
+            updateResourceLabels();
+        });
     }
 
     public void updateResourceImages() {

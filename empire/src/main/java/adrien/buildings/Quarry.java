@@ -18,6 +18,6 @@ public class Quarry extends Building {
                   new ResourceRequirement(ResourceType.IRON, 4),
                   new ResourceRequirement(ResourceType.COAL, 4)
               });
-        costBuildingResources();
+        
     }
 }

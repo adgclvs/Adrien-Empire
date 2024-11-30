@@ -4,8 +4,10 @@ import adrien.buildings.BuildingsManager.Building;
 import adrien.buildings.BuildingsManager.BuildingFactory;
 import adrien.buildings.BuildingsManager.BuildingType;
 import adrien.resources.Resource;
+import adrien.resources.ResourceRequirement;
+import adrien.resources.ResourceType;
 
-public class GameManager {
+public class GameManager extends Observable{
 
     private GameTimer gameTimer;
     private int mapWidth;
@@ -16,9 +18,10 @@ public class GameManager {
         this.mapHeight = mapHeight;
         MapManager.getInstance();
         Resource.getInstance();
-        Inhabitants.getInstance(0);
+        Inhabitants.getInstance();
         this.gameTimer = new GameTimer(1000);
     }
+
 
     public int getMapWidth() {
         return mapWidth;
@@ -42,7 +45,8 @@ public class GameManager {
         if (gameTimer.getCurrentTick() % 24 == 0 && gameTimer.getCurrentTick() > 0) {
             updateResourceProduction();
             updateResourceConsumption();
-            //controllerRessources.update();
+            updateEatingInhabitants();
+            notifyObservers();
             System.out.println("Resources updated (24-hour cycle).");
         }
         updateBuildingStatuses();
@@ -50,9 +54,12 @@ public class GameManager {
 
     private void updateResourceProduction() {
         for (Building building : MapManager.getAllBuildings()) {
-            if (building.isOperational() && building.getCurrentWorkers() > 0) {
-                building.produceResources();
-                System.out.println("Resources produced by: " + building.getType());
+            if(building.getCurrentWorkers() > 0){
+                if (building.isProducing()) {
+                    building.produceResources();
+                    System.out.println("Resources produced by: " + building.getType());
+                }
+                building.setProducing(true);
             }
         }
     }
@@ -73,9 +80,16 @@ public class GameManager {
                 if (building.getConstructionTimeRemaining() <= 0) {
                     System.out.println("Building completed: " + building.getType());
                     building.setOperational(true);
-                    Inhabitants.addInhabitants(building.getMaxInhabitants());
+                    MapManager.addInitialInhabitant(building);
                 }
             }
+        }
+    }
+
+    private void updateEatingInhabitants() {
+        for (int i = 0; i < Inhabitants.getNumberInhabitants(); i++) {
+            ResourceRequirement resourceRequirement = new ResourceRequirement(ResourceType.FOOD, 1);
+            Resource.consumeResource(resourceRequirement);
         }
     }
 
@@ -90,11 +104,11 @@ public class GameManager {
         return MapManager.removeBuilding(position);
     }
 
-    public void addWorkers(Building building, int workers) {
-        building.setCurrentWorkers(building.getCurrentWorkers() + workers);
+    public boolean addWorkers(Building building, int workers) {
+       return building.addWorkers(workers);
     }
 
-    public void removeWorkers(Building building, int workers) {
-        building.setCurrentWorkers(building.getCurrentWorkers() - workers);
+    public boolean removeWorkers(Building building, int workers) {
+        return building.removeWorkers(workers);
     }
 }
