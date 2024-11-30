@@ -1,15 +1,7 @@
 package adrien.buildings.BuildingsManager;
 
 import adrien.Position;
-import adrien.buildings.ApartmentBuilding;
-import adrien.buildings.CementPlant;
-import adrien.buildings.Farm;
-import adrien.buildings.House;
-import adrien.buildings.LumberMill;
-import adrien.buildings.Quarry;
-import adrien.buildings.SteelMill;
-import adrien.buildings.ToolFactory;
-import adrien.buildings.WoodenCabin;
+import adrien.buildings.*;
 
 public class BuildingFactory {
 

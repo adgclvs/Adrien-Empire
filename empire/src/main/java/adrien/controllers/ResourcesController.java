@@ -1,6 +1,5 @@
 package adrien.controllers;
 
-import adrien.GameManager;
 import adrien.Observer;
 import adrien.resources.Resource;
 import adrien.resources.ResourceType;
@@ -65,13 +64,6 @@ public class ResourcesController implements Observer {
     @FXML
     private Label toolsLabel;
 
-    // private GameManager gameManager;
-
-    // public void setGameManager(GameManager gameManager) {
-    //     this.gameManager = gameManager;
-    //     // gameManager.addObserver(this); // Ajouter ce contrôleur comme observateur
-    // }
-
     @FXML
     public void initialize() {
         Resource.getInstance().addObserver(this);
@@ -86,57 +78,60 @@ public class ResourcesController implements Observer {
         });
     }
 
+
     public void updateResourceImages() {
         double imageWidth = 70;
         double imageHeight = 70;
+        Resource resource = Resource.getInstance();
 
-        foodImage.setImage(Resource.getResourceImage(ResourceType.FOOD));
+        foodImage.setImage(resource.getResourceImage(ResourceType.FOOD));
         foodImage.setFitWidth(imageWidth);
         foodImage.setFitHeight(imageHeight);
 
-        woodImage.setImage(Resource.getResourceImage(ResourceType.WOOD));
+        woodImage.setImage(resource.getResourceImage(ResourceType.WOOD));
         woodImage.setFitWidth(imageWidth);
         woodImage.setFitHeight(imageHeight);
 
-        stoneImage.setImage(Resource.getResourceImage(ResourceType.STONE));
+        stoneImage.setImage(resource.getResourceImage(ResourceType.STONE));
         stoneImage.setFitWidth(imageWidth);
         stoneImage.setFitHeight(imageHeight);
 
-        coalImage.setImage(Resource.getResourceImage(ResourceType.COAL));
+        coalImage.setImage(resource.getResourceImage(ResourceType.COAL));
         coalImage.setFitWidth(imageWidth);
         coalImage.setFitHeight(imageHeight);
 
-        ironImage.setImage(Resource.getResourceImage(ResourceType.IRON));
+        ironImage.setImage(resource.getResourceImage(ResourceType.IRON));
         ironImage.setFitWidth(imageWidth);
         ironImage.setFitHeight(imageHeight);
 
-        steelImage.setImage(Resource.getResourceImage(ResourceType.STEEL));
+        steelImage.setImage(resource.getResourceImage(ResourceType.STEEL));
         steelImage.setFitWidth(imageWidth);
         steelImage.setFitHeight(imageHeight);
 
-        cementImage.setImage(Resource.getResourceImage(ResourceType.CEMENT));
+        cementImage.setImage(resource.getResourceImage(ResourceType.CEMENT));
         cementImage.setFitWidth(imageWidth);
         cementImage.setFitHeight(imageHeight);
 
-        lumberImage.setImage(Resource.getResourceImage(ResourceType.LUMBER));
+        lumberImage.setImage(resource.getResourceImage(ResourceType.LUMBER));
         lumberImage.setFitWidth(imageWidth);
         lumberImage.setFitHeight(imageHeight);
 
-        toolsImage.setImage(Resource.getResourceImage(ResourceType.TOOLS));
+        toolsImage.setImage(resource.getResourceImage(ResourceType.TOOLS));
         toolsImage.setFitWidth(imageWidth);
         toolsImage.setFitHeight(imageHeight);
     }
 
     public void updateResourceLabels() {
-        foodLabel.setText("" + Resource.getResource(ResourceType.FOOD));
-        woodLabel.setText("" + Resource.getResource(ResourceType.WOOD));
-        stoneLabel.setText("" + Resource.getResource(ResourceType.STONE));
-        coalLabel.setText("" + Resource.getResource(ResourceType.COAL));
-        ironLabel.setText("" + Resource.getResource(ResourceType.IRON));
-        steelLabel.setText("" + Resource.getResource(ResourceType.STEEL));
-        cementLabel.setText("" + Resource.getResource(ResourceType.CEMENT));
-        lumberLabel.setText("" + Resource.getResource(ResourceType.LUMBER));
-        toolsLabel.setText("" + Resource.getResource(ResourceType.TOOLS));
+        Resource resource = Resource.getInstance();
+        foodLabel.setText("" + resource.getResource(ResourceType.FOOD));
+        woodLabel.setText("" + resource.getResource(ResourceType.WOOD));
+        stoneLabel.setText("" + resource.getResource(ResourceType.STONE));
+        coalLabel.setText("" + resource.getResource(ResourceType.COAL));
+        ironLabel.setText("" + resource.getResource(ResourceType.IRON));
+        steelLabel.setText("" + resource.getResource(ResourceType.STEEL));
+        cementLabel.setText("" + resource.getResource(ResourceType.CEMENT));
+        lumberLabel.setText("" + resource.getResource(ResourceType.LUMBER));
+        toolsLabel.setText("" + resource.getResource(ResourceType.TOOLS));
     }
 
 }

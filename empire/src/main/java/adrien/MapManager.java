@@ -1,38 +1,39 @@
 package adrien;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import adrien.buildings.BuildingsManager.Building;
-import adrien.controllers.MapController;
-import adrien.resources.Resource;
-import adrien.resources.ResourceRequirement;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
-import javafx.stage.Screen;
 
 public class MapManager extends Observable {
-    public static int width;
-    public static int height;
-    private static boolean[][] grid;
-    private static Map<Position, Building> buildings;
+    public int width;
+    public int height;
+    private boolean[][] grid;
+    private Map<Position, Building> buildings;
     private static MapManager instance;
 
     /*************************************CONSTRUCTOR***************************************** */
+
+    /**
+     * Constructor for MapManager
+     * @param width
+     * @param height
+     */
     private MapManager(int width, int height) {
-        MapManager.width = width;
-        MapManager.height = height;
-        MapManager.grid = new boolean[height][width];
-        MapManager.buildings = new HashMap<>();
+        this.width = width;
+        this.height = height;
+        this.grid = new boolean[height][width];
+        this.buildings = new HashMap<>();
     }
 
     /*************************************INSTANCE***************************************** */
 
+    /**
+     * Get the instance of the MapManager
+     */
     public static MapManager getInstance() {
         if (instance == null) {
             instance = new MapManager(40, 20);
@@ -42,27 +43,47 @@ public class MapManager extends Observable {
 
     /*************************************GETTER***************************************** */
 
-    public static Map<Position, Building> getPositionnedBuildings() {
+    /**
+     * @return buildings with their position using a map
+     */
+    public Map<Position, Building> getPositionnedBuildings() {
         return buildings;
     }
 
-    public static Building[] getAllBuildings() {
+    /**
+     * @return all buildings in a table
+     */
+    public Building[] getAllBuildings() {
         Set<Building> uniqueBuildings = new HashSet<>(buildings.values());
         return uniqueBuildings.toArray(new Building[0]);
     }
 
-    public static Building findBuilding(Position position) {
+    /**
+     * @param position
+     * @return the building at the given position
+     */
+    public Building findBuilding(Position position) {
         return buildings.get(position);
     }
 
-    public static Image getBuildingImage(Building building) {
+    /**
+     * @param building
+     * @return the image of the building
+     */
+    public Image getBuildingImage(Building building) {
         String imagePath = "/adrien/images/buildings/" + building.getType().toString().toLowerCase() + ".png";
         return new Image(MapManager.class.getResourceAsStream(imagePath));
     }
 
     /*************************************BUILDINGS***************************************** */
 
-    public static boolean addBuilding(Position position, Building building) {
+    /**
+     * Add a building to the map
+     * @param position
+     * @param building
+     * @return true if the building was added, false otherwise
+     */
+    public boolean addBuilding(Position position, Building building) {
         if (!isSpaceAvailable(building, position)) return false;
         if (!building.costBuildingResources()) return false; 
         
@@ -76,14 +97,24 @@ public class MapManager extends Observable {
         return true;
     }
 
-    public static boolean addInitialInhabitant(Building building) {
+    /**
+     * Add an initial inhabitant to the building
+     * @param building
+     * @return true if the inhabitant was added, false otherwise
+     */
+    public boolean addInitialInhabitant(Building building) {
         int numberOfInhabitants = building.getMaxInhabitants();
         Inhabitants.addInhabitants(numberOfInhabitants);
         instance.notifyObservers();
         return true;
     }
 
-    public static boolean removeBuilding(Position position) {
+    /**
+     * Remove a building from the map
+     * @param position
+     * @return true if the building was removed, false otherwise
+     */
+    public boolean removeBuilding(Position position) {
         Building building = buildings.remove(position);
         if (building != null) {
             deOccupySpace(building, position);
@@ -98,7 +129,13 @@ public class MapManager extends Observable {
 
     /*************************************SPACE***************************************** */
 
-    public static boolean isSpaceAvailable(Building building, Position position) {
+    /**
+     * Check if the space is available for a building
+     * @param building
+     * @param position
+     * @return true if the space is available, false otherwise
+     */
+    public boolean isSpaceAvailable(Building building, Position position) {
         int x = position.getX();
         int y = position.getY();
 
@@ -118,7 +155,12 @@ public class MapManager extends Observable {
         return true;
     }
 
-    public static void occupySpace(Building building, Position position) {
+    /**
+     * Occupy the space for a building
+     * @param building
+     * @param position
+     */
+    public void occupySpace(Building building, Position position) {
         int x = position.getX();
         int y = position.getY();
         for (int i = 0; i < building.getHeight(); i++) {
@@ -128,7 +170,12 @@ public class MapManager extends Observable {
         }
     }
 
-    public static void deOccupySpace(Building building, Position position) {
+    /**
+     * De-occupy the space for a building
+     * @param building
+     * @param position
+     */
+    public void deOccupySpace(Building building, Position position) {
         int x = position.getX();
         int y = position.getY();
         for (int i = 0; i < building.getHeight(); i++) {

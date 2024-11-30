@@ -1,26 +1,15 @@
 package adrien.controllers;
 
-import adrien.GameManager;
-import adrien.ImageCache;
-import adrien.MapManager;
-import adrien.Observer;
-import adrien.Position;
-import adrien.SharedState;
+import adrien.*;
 import adrien.buildings.BuildingsManager.Building;
-import adrien.buildings.BuildingsManager.BuildingFactory;
 import adrien.buildings.BuildingsManager.BuildingType;
-import adrien.resources.Resource;
 import adrien.resources.ResourceRequirement;
-import adrien.resources.ResourceType;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.Tooltip;
-import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -30,7 +19,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Popup;
 import javafx.stage.Screen;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class MapController implements Observer {
@@ -77,7 +65,7 @@ public class MapController implements Observer {
     public void handleCellClick(int row, int col) {
         System.out.println("Cell clicked: " + col + ", " + row);
         Position position = new Position(col, row);
-        Building building = MapManager.findBuilding(position);
+        Building building = MapManager.getInstance().findBuilding(position);
 
         // Si on clique sur un bâtiment et qu'aucun bâtiment n'est sélectionné, alors on affiche les informations du bâtiment
         if (building != null && SharedState.getSelectedBuildingType() == null && building.isOperational()) {
@@ -253,7 +241,7 @@ public class MapController implements Observer {
 
                 // Vérifier s'il y a un bâtiment à la position actuelle
                 Position position = new Position(j, i);
-                Building building = MapManager.findBuilding(position);
+                Building building = MapManager.getInstance().findBuilding(position);
 
                 if (building != null && building.getOrigin().equals(position)) {
                     // Ajouter l'observateur pour mettre à jour la carte lorsque l'état opérationnel change

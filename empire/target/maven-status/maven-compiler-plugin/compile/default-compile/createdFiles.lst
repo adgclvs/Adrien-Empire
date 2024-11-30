@@ -6,7 +6,6 @@ adrien/controllers/ResourcesController.class
 adrien/buildings/Farm.class
 adrien/resources/Resource.class
 adrien/GameTimer.class
-adrien/Main.class
 adrien/buildings/BuildingsManager/BuildingType.class
 adrien/resources/ResourceRequirement.class
 adrien/controllers/BuildingsController.class

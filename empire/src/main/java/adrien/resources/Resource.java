@@ -1,9 +1,7 @@
 package adrien.resources;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -11,13 +9,16 @@ import adrien.Observer;
 import javafx.scene.image.Image;
 
 public class Resource {
-    private static final Map<String, Image> imageCache = new HashMap<>();
+    private final Map<String, Image> imageCache = new HashMap<>();
     private static Resource instance;
-    private static Map<ResourceType, Integer> resources;
+    private Map<ResourceType, Integer> resources;
     private Set<Observer> observers;
 
      /*************************************CONSTRUCTOR***************************************** */
 
+    /**
+     * Constructor for Resource
+     */
     private Resource() {
         resources = new HashMap<>();
         observers = new HashSet<>();
@@ -34,7 +35,11 @@ public class Resource {
 
      /*************************************INSTANCE***************************************** */
 
-    public static synchronized Resource getInstance() {
+    /**
+     * Get the instance of the Resource
+     * @return instance
+    */
+    public static Resource getInstance() {
         if (instance == null) {
             instance = new Resource();
         }
@@ -43,15 +48,29 @@ public class Resource {
 
      /*************************************GETTER***************************************** */
 
-    public static int getResource(ResourceType resourceType) {
+    /**
+     * Get the amount of a specific resource
+     * @param resourceType
+     * @return amount
+     */
+    public int getResource(ResourceType resourceType) {
         return resources.getOrDefault(resourceType, 0);
     }
 
-    public static Map<ResourceType, Integer> getResources() {
+    /**
+     * Get all resources
+     * @return resources
+     */
+    public Map<ResourceType, Integer> getResources() {
         return resources;
     }
 
-    public static boolean haveAllResources(ResourceRequirement[] resourceRequirements) {
+    /**
+     * Check if the city has all the resources required
+     * @param resourceRequirements
+     * @return boolean
+     */
+    public boolean haveAllResources(ResourceRequirement[] resourceRequirements) {
         if (resourceRequirements == null) {
             System.out.println("Resource requirements are not initialized.");
             return false;
@@ -67,7 +86,12 @@ public class Resource {
         return true;
     }
 
-    public static Image getResourceImage(ResourceType resourceType) {
+    /**
+     * Get the image of a resource
+     * @param resourceType
+     * @return image
+     */
+    public Image getResourceImage(ResourceType resourceType) {
         String resourceTypeString = resourceType.toString();
         if (imageCache.containsKey(resourceTypeString)) {
             return imageCache.get(resourceTypeString);
@@ -84,16 +108,25 @@ public class Resource {
         }
     }
 
-     /*************************************RESOURCES***************************************** */
+/*************************************RESOURCES***************************************** */
 
-     public static void addResource(ResourceRequirement resourceRequirement) {
+    /**
+     * Add resources
+     * @param resourceRequirement
+     */
+     public void addResource(ResourceRequirement resourceRequirement) {
         ResourceType resourceType = resourceRequirement.getResourceType();
         int amount = resourceRequirement.getQuantity();
         int currentAmount = resources.getOrDefault(resourceType, 0);
         resources.put(resourceType, currentAmount + amount);
     }
 
-    public static boolean consumeResource(ResourceRequirement resourceRequirement) {
+    /**
+     * Consume resources
+     * @param resourceRequirement
+     * @return boolean
+     */
+    public boolean consumeResource(ResourceRequirement resourceRequirement) {
         ResourceType resourceType = resourceRequirement.getResourceType();
         int amount = resourceRequirement.getQuantity();
         System.out.println("Consuming " + amount + " " + resourceType);
@@ -107,7 +140,7 @@ public class Resource {
         }
     }
 
-     /*************************************OBSERVER***************************************** */
+/*************************************OBSERVER***************************************** */
 
     public void addObserver(Observer observer) {
         observers.add(observer);
