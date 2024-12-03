@@ -150,9 +150,9 @@ public class Resource {
         observers.remove(observer);
     }
 
-    public void notifyObserversAtEndOfTick() {
-        for (Observer observer : observers) {
-            observer.update();
-        }
-    }
+    // public void notifyObserversAtEndOfTick() {
+    //     for (Observer observer : observers) {
+    //         observer.update();
+    //     }
+    // }
 }

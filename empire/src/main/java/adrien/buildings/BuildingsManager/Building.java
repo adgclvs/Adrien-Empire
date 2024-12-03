@@ -6,7 +6,7 @@ import adrien.Observable;
 import adrien.Position;
 
 
-public abstract class Building extends Observable{
+public abstract class Building{
     private final int tick_in_hour = 24;
 
     private BuildingType type;
@@ -186,7 +186,6 @@ public abstract class Building extends Observable{
      */
     public void setOperational(boolean isOperational) {
         this.isOperational = isOperational;
-        notifyObservers();
     }
 
     /**
@@ -262,7 +261,6 @@ public abstract class Building extends Observable{
         if(!Resource.getInstance().haveAllResources(consumption)){
             System.out.println("Not enough resources to consume");
             setProducing(false);
-            notifyObservers();
             return;
         }
         // Consomme les ressources

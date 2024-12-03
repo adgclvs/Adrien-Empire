@@ -94,6 +94,7 @@ public class MapManager extends Observable {
             }
         }
         occupySpace(building, position);
+        this.notifyObservers();
         return true;
     }
 
@@ -105,7 +106,7 @@ public class MapManager extends Observable {
     public boolean addInitialInhabitant(Building building) {
         int numberOfInhabitants = building.getMaxInhabitants();
         Inhabitants.addInhabitants(numberOfInhabitants);
-        instance.notifyObservers();
+        this.notifyObservers(); // ?
         return true;
     }
 
@@ -120,10 +121,10 @@ public class MapManager extends Observable {
             deOccupySpace(building, position);
             int numberOfInhabitants = building.getMaxInhabitants();
             Inhabitants.removeInhabitants(numberOfInhabitants);
-            instance.notifyObservers();
+            this.notifyObservers();
             return true;
         }
-        instance.notifyObservers();
+        this.notifyObservers();
         return false;
     }
 

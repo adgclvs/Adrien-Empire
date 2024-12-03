@@ -44,6 +44,7 @@ public class MainController {
             if (mapController != null) {
                 mapController.setGameManager(gameManager);
                 mapController.setBuildingsController(buildingsController);
+                mapController.setResourcesController(resourcesController);
                 mapController.initialize();
             } 
             if (resourcesController != null) {

@@ -8,7 +8,7 @@ import adrien.resources.ResourceType;
 
 public class WoodenCabin extends Building {
     public WoodenCabin(Position pos) {
-        super(pos,BuildingType.WOODEN_CABIN, 2, 2, 2, 1, 1,
+        super(pos,BuildingType.WOODEN_CABIN, 2, 2, 20, 1, 1,
               new ResourceRequirement[]{
                   new ResourceRequirement(ResourceType.WOOD, 1)
               },

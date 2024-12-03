@@ -7,7 +7,7 @@ import adrien.resources.Resource;
 import adrien.resources.ResourceRequirement;
 import adrien.resources.ResourceType;
 
-public class GameManager extends Observable{
+public class GameManager{
 
     private GameTimer gameTimer;
     private int mapWidth;
@@ -24,7 +24,7 @@ public class GameManager extends Observable{
         MapManager.getInstance();
         Resource.getInstance();
         Inhabitants.getInstance();
-        this.gameTimer = new GameTimer(1000);
+        this.gameTimer = new GameTimer(100);
     }
 
 /**********************************GETTER********************************************** */
@@ -70,10 +70,8 @@ public class GameManager extends Observable{
             updateResourceProduction();
             updateResourceConsumption();
             updateEatingInhabitants();
-            notifyObservers();
             System.out.println("Resources updated (24-hour cycle).");
         }
-        Resource.getInstance().notifyObserversAtEndOfTick();
         updateBuildingStatuses();
     }
 
@@ -143,7 +141,8 @@ public class GameManager extends Observable{
     public boolean addBuilding(BuildingType buildingType, int x, int y) {
         Position position = new Position(x, y);
         Building newBuilding = BuildingFactory.createBuilding(buildingType,position);
-        return MapManager.getInstance().addBuilding(position, newBuilding);
+        boolean result = MapManager.getInstance().addBuilding(position, newBuilding);
+        return result;
     }
 
     /**

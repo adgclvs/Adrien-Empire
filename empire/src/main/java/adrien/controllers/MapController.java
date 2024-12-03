@@ -1,8 +1,11 @@
 package adrien.controllers;
 
+import java.util.Map;
+
 import adrien.*;
 import adrien.buildings.BuildingsManager.Building;
 import adrien.buildings.BuildingsManager.BuildingType;
+import adrien.resources.Resource;
 import adrien.resources.ResourceRequirement;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -36,6 +39,7 @@ public class MapController implements Observer {
     private int gridWidth;
     private GameManager gameManager;
     private BuildingsController buildingsController;
+    private ResourcesController resourcesController;
 
     public void initialize() {
         if (gameManager != null) {
@@ -47,6 +51,11 @@ public class MapController implements Observer {
         }
     }
 
+    public void setResourcesController(ResourcesController controller) {
+        this.resourcesController = controller;
+        System.out.println("ResourcesController set.");
+    }
+
     public void setBuildingsController(BuildingsController controller) {
         this.buildingsController = controller;
         System.out.println("BuildingsController set.");
@@ -54,12 +63,13 @@ public class MapController implements Observer {
     
     public void setGameManager(GameManager gameManager) {
         this.gameManager = gameManager;
+        MapManager.getInstance().addObserver(this);
         System.out.println("GameManager set.");
     }
 
     @Override
     public void update() {
-        Platform.runLater(this::displayMap);
+        Platform.runLater(this::displayGame);
     }
 
     public void handleCellClick(int row, int col) {
@@ -80,7 +90,6 @@ public class MapController implements Observer {
             if (added) {
                 System.out.println("Building placed at " + col + ", " + row);
                 SharedState.setSelectedBuildingType(null); // Clear selected building type
-                displayMap(); // Mettre à jour la carte après avoir ajouté un bâtiment
             } else {
                 SharedState.setSelectedBuildingType(null); // Clear selected building type
                 System.out.println("Cannot place building here.");
@@ -204,11 +213,11 @@ public class MapController implements Observer {
             productionBox.getChildren().add(noProductionLabel);
         }
     }
-    
-    
-    
-    
-    
+
+    public void displayGame() {
+        displayMap();
+        resourcesController.updateResourceLabels();
+    }
 
     public void displayMap() {
         // Nettoyer le GridPane et le Pane
@@ -245,7 +254,6 @@ public class MapController implements Observer {
 
                 if (building != null && building.getOrigin().equals(position)) {
                     // Ajouter l'observateur pour mettre à jour la carte lorsque l'état opérationnel change
-                    building.addObserver(this);
 
                     // Créer une ImageView pour le bâtiment et la placer au-dessus des cellules d'herbe
                     ImageView buildingImageView = new ImageView(getBuildingImage(building));
@@ -301,14 +309,14 @@ public class MapController implements Observer {
         }
     }
 
-   private Image getBuildingImage(Building building) {
-    String imagePath;
-    if (building.isOperational()) {
-        imagePath = "/adrien/images/buildings/" + building.getType().toString().toLowerCase() + ".png";
-    } else {
-        imagePath = "/adrien/images/buildings/inprogress.png";
-    }
+    private Image getBuildingImage(Building building) {
+        String imagePath;
+        if (building.isOperational()) {
+            imagePath = "/adrien/images/buildings/" + building.getType().toString().toLowerCase() + ".png";
+        } else {
+            imagePath = "/adrien/images/buildings/inprogress.png";
+        }
 
-    return ImageCache.getImage(imagePath);
-}
+        return ImageCache.getImage(imagePath);
+    }
 }

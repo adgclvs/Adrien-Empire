@@ -3,6 +3,8 @@ package adrien;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.application.Platform;
+
 public abstract class Observable {
     private List<Observer> observers;
 
@@ -19,7 +21,11 @@ public abstract class Observable {
     }
 
     protected void notifyObservers() {
-        for (Observer observer : observers) {
+        List<Observer> observersCopy;
+        synchronized (this) {
+            observersCopy = new ArrayList<>(observers);
+        }
+        for (Observer observer : observersCopy) {
             observer.update();
         }
     }
