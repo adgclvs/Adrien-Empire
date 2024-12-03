@@ -215,95 +215,108 @@ public class MapController implements Observer {
     }
 
     public void displayMap() {
-        // Nettoyer le GridPane et le Pane
+        // Nettoyer les conteneurs
         grassGrid.getChildren().clear();
         buildingPane.getChildren().clear();
-
-        double screenWidth = Screen.getPrimary().getBounds().getWidth();
-        double cellsize = (screenWidth - 100) / gridWidth;
-
+    
+        // Dimensions des cellules isométriques
+        double tileWidth = 50; // Largeur de la tuile isométrique
+        double tileHeight = 25; // Hauteur de la tuile isométrique
+    
+        // Calcul des offsets pour centrer la grille
+        double offsetX = 875; // Décalage horizontal
+        double offsetY = 25; // Décalage vertical (optionnel)
+    
+        // Charger l'image d'herbe
         Image grassImage = ImageCache.getImage("/adrien/images/Grass.png");
-
-        for (int i = 0; i < gridHeight; i++) {
-            for (int j = 0; j < gridWidth; j++) {
-                // Création d'une ImageView pour chaque cellule d'herbe
+    
+        // Parcourir la grille
+        for (int row = 0; row < gridHeight; row++) {
+            for (int col = 0; col < gridWidth; col++) {
+                final int r = row;
+                final int c = col;
+    
+                // Calcul des positions isométriques
+                double x = (col - row) * (tileWidth / 2) + offsetX;
+                double y = (col + row) * (tileHeight / 2) + offsetY;
+    
+                // --- 1. Ajouter une tuile d'herbe ---
                 ImageView grassImageView = new ImageView(grassImage);
-                grassImageView.setFitWidth(cellsize);
-                grassImageView.setFitHeight(cellsize);
-
-                final int row = i;
-                final int col = j;
-
-                // Ajouter un gestionnaire de clics directement sur l'image d'herbe
+                grassImageView.setFitWidth(tileWidth);
+                grassImageView.setFitHeight(tileHeight);
+                grassImageView.setLayoutX(x); // Position X avec offset
+                grassImageView.setLayoutY(y); // Position Y avec offset
+    
+                // Gestion des clics sur les tuiles d'herbe
                 grassImageView.setOnMouseClicked(event -> {
-                    System.out.println("Grass clicked at: " + row + ", " + col);
-                    handleCellClick(row, col);
+                    System.out.println("Grass clicked at: " + r + ", " + c);
+                    handleCellClick(r, c);
                 });
-
-                // Ajouter l'image d'herbe au GridPane
-                grassGrid.add(grassImageView, j, i);
-
-                // Vérifier s'il y a un bâtiment à la position actuelle
-                Position position = new Position(j, i);
+    
+                buildingPane.getChildren().add(grassImageView);
+    
+                // --- Vérifier la présence d'un bâtiment ---
+                Position position = new Position(col, row);
                 Building building = MapManager.getInstance().findBuilding(position);
 
                 if (building != null && building.getOrigin().equals(position)) {
-                    // Ajouter l'observateur pour mettre à jour la carte lorsque l'état opérationnel change
+                    // Calcul des positions isométriques pour le bâtiment
+                    double buildingX = offsetX + (col - row) * (tileWidth / 2);
+                    double buildingY = offsetY + (col + row) * (tileHeight / 2);
 
-                    // Créer une ImageView pour le bâtiment et la placer au-dessus des cellules d'herbe
+                    // Créer et positionner le bâtiment
                     ImageView buildingImageView = new ImageView(getBuildingImage(building));
-                    buildingImageView.setFitWidth(cellsize * building.getWidth());
-                    buildingImageView.setFitHeight(cellsize * building.getHeight());
+                    buildingImageView.setFitWidth(tileWidth * building.getWidth());
+                    buildingImageView.setFitHeight(tileHeight * building.getHeight());
 
-                    // Ajouter un Label pour afficher le temps de construction restant
-                    Label timerLabel = new Label();
-                    timerLabel.setStyle("-fx-background-color: rgba(255, 255, 255, 0.7); -fx-padding: 2; -fx-border-color: black;");
-                    timerLabel.setLayoutX(j * cellsize);
-                    timerLabel.setLayoutY(i * cellsize - 20); // Ajustez la position du label selon vos besoins
+                    // Ajuster la position pour tenir compte de la hauteur du bâtiment
+                    buildingImageView.setLayoutX(buildingX);
+                    buildingImageView.setLayoutY(buildingY - (building.getHeight() - 1) * (tileHeight / 2));
 
-                    Timeline timeline = new Timeline();
+                    // Gestion des clics sur le bâtiment
+                    buildingImageView.setOnMouseClicked(event -> {
+                        System.out.println("Building clicked at: " + r + ", " + c);
+                        handleCellClick(r, c);
+                    });
+
+                    // Ajouter le bâtiment au panneau
+                    buildingPane.getChildren().add(buildingImageView);
+
+
+                    // --- 3. Affichage du timer pour les bâtiments en construction ---
                     if (!building.isOperational()) {
-                        // Ajouter un Timeline pour mettre à jour le timerLabel
-                        timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(1), event -> {
+                        Label timerLabel = new Label();
+                        timerLabel.setStyle("-fx-background-color: rgba(255, 255, 255, 0.7); -fx-padding: 2; -fx-border-color: black;");
+                        timerLabel.setLayoutX(x);
+                        timerLabel.setLayoutY(y - 20); // Position au-dessus du bâtiment
+    
+                        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
                             int remainingTime = building.getConstructionTimeRemaining();
                             if (remainingTime > 0) {
                                 timerLabel.setText(remainingTime + " seconds");
+                            } else {
+                                buildingPane.getChildren().remove(timerLabel);
                             }
                         }));
                         timeline.setCycleCount(Timeline.INDEFINITE);
                         timeline.play();
-                    }else {
-                        timeline.stop(); // Arrêter le Timeline lorsque le temps est écoulé
-                        Platform.runLater(() -> buildingPane.getChildren().remove(timerLabel)); // Supprimer le timer en toute sécurité sur le thread UI
+    
+                        buildingPane.getChildren().add(timerLabel);
                     }
-
-                    // Définir les coordonnées du bâtiment pour le placer correctement au-dessus des cellules
-                    buildingImageView.setLayoutX(j * cellsize);
-                    buildingImageView.setLayoutY(i * cellsize);
-
-                    // Gestion des clics sur le bâtiment
-                    buildingImageView.setOnMouseClicked(event -> {
-                        System.out.println("Building clicked at: " + row + ", " + col);
-                        handleCellClick(row, col);
-                    });
-
-                    // Ajouter le bâtiment et le timer au Pane
-                    buildingPane.getChildren().addAll(buildingImageView, timerLabel);
                 }
-
-                // Ajouter un rectangle transparent pour capter les clics sur les cellules d'herbe
-                javafx.scene.shape.Rectangle clickArea = new javafx.scene.shape.Rectangle(cellsize, cellsize);
+    
+                // --- 4. Ajouter une zone cliquable transparente ---
+                javafx.scene.shape.Rectangle clickArea = new javafx.scene.shape.Rectangle(tileWidth, tileHeight);
                 clickArea.setFill(javafx.scene.paint.Color.TRANSPARENT);
-                clickArea.setLayoutX(j * cellsize);
-                clickArea.setLayoutY(i * cellsize);
-                clickArea.setOnMouseClicked(event -> handleCellClick(row, col));
-
-                // Ajouter le rectangle transparent au Pane des bâtiments (au-dessus de l'herbe, mais sous le bâtiment)
+                clickArea.setLayoutX(x);
+                clickArea.setLayoutY(y);
+                clickArea.setOnMouseClicked(event -> handleCellClick(r, c));
+    
                 buildingPane.getChildren().add(clickArea);
             }
         }
     }
-
+    
     private Image getBuildingImage(Building building) {
         String imagePath;
         if (building.isOperational()) {
@@ -311,7 +324,7 @@ public class MapController implements Observer {
         } else {
             imagePath = "/adrien/images/buildings/inprogress.png";
         }
-
+    
         return ImageCache.getImage(imagePath);
     }
 }

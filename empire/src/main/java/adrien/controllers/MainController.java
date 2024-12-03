@@ -35,8 +35,8 @@ public class MainController {
             Pane resourcesView = loadView("/adrien/views/ResourcesView.fxml");
 
             // Initialiser les dimensions de la grille et le GameManager
-            gridHeight = 20;
-            gridWidth = 40;
+            gridHeight = 35;
+            gridWidth = 35;
             gameManager = new GameManager(gridWidth, gridHeight);
             gameManager.startGame();
 
