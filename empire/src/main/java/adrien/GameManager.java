@@ -9,6 +9,8 @@ import adrien.resources.ResourceType;
 
 public class GameManager{
 
+    private final int tickDuration = 1000;
+
     private GameTimer gameTimer;
     private int mapWidth;
     private int mapHeight;
@@ -24,7 +26,7 @@ public class GameManager{
         MapManager.getInstance();
         Resource.getInstance();
         Inhabitants.getInstance();
-        this.gameTimer = new GameTimer(100);
+        this.gameTimer = new GameTimer(tickDuration);
     }
 
 /**********************************GETTER********************************************** */

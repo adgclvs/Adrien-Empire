@@ -69,7 +69,7 @@ public class MapController implements Observer {
 
     @Override
     public void update() {
-        Platform.runLater(this::displayGame);
+        Platform.runLater(this::displayMap);
     }
 
     public void handleCellClick(int row, int col) {
@@ -212,11 +212,6 @@ public class MapController implements Observer {
             noProductionLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: gray;");
             productionBox.getChildren().add(noProductionLabel);
         }
-    }
-
-    public void displayGame() {
-        displayMap();
-        resourcesController.updateResourceLabels();
     }
 
     public void displayMap() {

@@ -5,14 +5,14 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import adrien.Observable;
 import adrien.Observer;
 import javafx.scene.image.Image;
 
-public class Resource {
+public class Resource extends Observable {
     private final Map<String, Image> imageCache = new HashMap<>();
     private static Resource instance;
     private Map<ResourceType, Integer> resources;
-    private Set<Observer> observers;
 
      /*************************************CONSTRUCTOR***************************************** */
 
@@ -21,7 +21,6 @@ public class Resource {
      */
     private Resource() {
         resources = new HashMap<>();
-        observers = new HashSet<>();
         resources.put(ResourceType.FOOD, 100);
         resources.put(ResourceType.WOOD, 50);
         resources.put(ResourceType.STONE, 30);
@@ -119,6 +118,7 @@ public class Resource {
         int amount = resourceRequirement.getQuantity();
         int currentAmount = resources.getOrDefault(resourceType, 0);
         resources.put(resourceType, currentAmount + amount);
+        this.notifyObservers();
     }
 
     /**
@@ -133,6 +133,7 @@ public class Resource {
         int currentAmount = resources.getOrDefault(resourceType, 0);
         if (currentAmount >= amount) {
             resources.put(resourceType, currentAmount - amount);
+            this.notifyObservers();
             return true;
         } else {
             System.out.println("Not enough " + resourceType);
@@ -140,19 +141,4 @@ public class Resource {
         }
     }
 
-/*************************************OBSERVER***************************************** */
-
-    public void addObserver(Observer observer) {
-        observers.add(observer);
-    }
-
-    public void removeObserver(Observer observer) {
-        observers.remove(observer);
-    }
-
-    // public void notifyObserversAtEndOfTick() {
-    //     for (Observer observer : observers) {
-    //         observer.update();
-    //     }
-    // }
 }

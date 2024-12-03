@@ -8,7 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Label;
 
-public class ResourcesController {
+public class ResourcesController implements Observer {
 
     @FXML
     private ImageView foodImage;
@@ -69,6 +69,14 @@ public class ResourcesController {
         Resource.getInstance();
         updateResourceImages();
         updateResourceLabels();
+        Resource.getInstance().addObserver(this);
+    }
+
+    @Override
+    public void update() {
+        Platform.runLater(() -> {
+            updateResourceLabels();
+        });
     }
 
     public void updateResourceImages() {
