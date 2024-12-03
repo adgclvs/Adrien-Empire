@@ -30,7 +30,7 @@ public class MapController implements Observer {
     private StackPane mapPane;
 
     @FXML
-    private GridPane grassGrid;
+    private Pane grassGrid;
 
     @FXML
     private Pane buildingPane; 
@@ -214,6 +214,10 @@ public class MapController implements Observer {
         // Nettoyer les conteneurs
         grassGrid.getChildren().clear();
         buildingPane.getChildren().clear();
+        mapPane.getChildren().clear();
+
+        mapPane.getChildren().add(grassGrid);
+        mapPane.getChildren().add(buildingPane);
     
         // Dimensions des cellules isométriques
         double tileWidth = 50; // Largeur de la tuile isométrique
@@ -243,7 +247,7 @@ public class MapController implements Observer {
                 grassImageView.setLayoutX(x); // Position X avec offset
                 grassImageView.setLayoutY(y); // Position Y avec offset
     
-                buildingPane.getChildren().add(grassImageView);
+                grassGrid.getChildren().add(grassImageView);
     
                 // --- Vérifier la présence d'un bâtiment ---
                 Position position = new Position(col, row);

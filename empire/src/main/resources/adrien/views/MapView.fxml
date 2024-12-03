@@ -8,7 +8,7 @@
     <!-- Utilisation d'un StackPane pour superposer les calques -->
 
     <!-- Le GridPane qui contient les images d'herbe -->
-    <GridPane fx:id="grassGrid" />
+    <Pane fx:id="grassGrid" />
 
     <!-- Le Pane qui contient les bâtiments, superposé sur le GridPane -->
     <Pane fx:id="buildingPane" />
