@@ -11,18 +11,17 @@ public class GameManager{
 
     private final int tickDuration = 1000;
 
+    public static final int width = 35;
+    public static final int height = 35;
+
     private GameTimer gameTimer;
-    private int mapWidth;
-    private int mapHeight;
+    public static int mapWidth;
+    public static int mapHeight;
 
     /**
      * Constructor for GameManager
-     * @param mapWidth
-     * @param mapHeight
      */
-    public GameManager(int mapWidth, int mapHeight) {
-        this.mapWidth = mapWidth;
-        this.mapHeight = mapHeight;
+    public GameManager() {
         MapManager.getInstance();
         Resource.getInstance();
         Inhabitants.getInstance();

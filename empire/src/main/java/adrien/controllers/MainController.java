@@ -10,8 +10,6 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class MainController {
-    private int gridHeight;
-    private int gridWidth;
     private GameManager gameManager;
 
     @FXML
@@ -34,11 +32,9 @@ public class MainController {
             Pane mapView = loadView("/adrien/views/MapView.fxml");
             Pane resourcesView = loadView("/adrien/views/ResourcesView.fxml");
 
-            // Initialiser les dimensions de la grille et le GameManager
-            gridHeight = 35;
-            gridWidth = 35;
-            gameManager = new GameManager(gridWidth, gridHeight);
+            gameManager = new GameManager();
             gameManager.startGame();
+
 
             // Initialiser les contrôleurs
             if (mapController != null) {

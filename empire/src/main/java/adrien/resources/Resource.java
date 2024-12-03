@@ -1,12 +1,9 @@
 package adrien.resources;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 import adrien.Observable;
-import adrien.Observer;
 import javafx.scene.image.Image;
 
 public class Resource extends Observable {

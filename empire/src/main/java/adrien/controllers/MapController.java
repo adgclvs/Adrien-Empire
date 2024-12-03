@@ -35,16 +35,12 @@ public class MapController implements Observer {
     @FXML
     private Pane buildingPane; 
 
-    private int gridHeight;
-    private int gridWidth;
     private GameManager gameManager;
     private BuildingsController buildingsController;
     private ResourcesController resourcesController;
 
     public void initialize() {
         if (gameManager != null) {
-            gridHeight = gameManager.getMapHeight();
-            gridWidth = gameManager.getMapWidth();
             displayMap();
         } else {
             System.out.println("GameManager is not set.");
@@ -231,8 +227,8 @@ public class MapController implements Observer {
         Image grassImage = ImageCache.getImage("/adrien/images/Grass.png");
     
         // Parcourir la grille
-        for (int row = 0; row < gridHeight; row++) {
-            for (int col = 0; col < gridWidth; col++) {
+        for (int row = 0; row < GameManager.height; row++) {
+            for (int col = 0; col < GameManager.width; col++) {
                 final int r = row;
                 final int c = col;
     
@@ -246,12 +242,6 @@ public class MapController implements Observer {
                 grassImageView.setFitHeight(tileHeight);
                 grassImageView.setLayoutX(x); // Position X avec offset
                 grassImageView.setLayoutY(y); // Position Y avec offset
-    
-                // Gestion des clics sur les tuiles d'herbe
-                grassImageView.setOnMouseClicked(event -> {
-                    System.out.println("Grass clicked at: " + r + ", " + c);
-                    handleCellClick(r, c);
-                });
     
                 buildingPane.getChildren().add(grassImageView);
     

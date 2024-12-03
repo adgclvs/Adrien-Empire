@@ -2,7 +2,6 @@ package adrien.buildings.BuildingsManager;
 
 import adrien.resources.*;
 import adrien.Inhabitants;
-import adrien.Observable;
 import adrien.Position;
 
 

@@ -9,8 +9,7 @@ import adrien.buildings.BuildingsManager.Building;
 import javafx.scene.image.Image;
 
 public class MapManager extends Observable {
-    public int width;
-    public int height;
+
     private boolean[][] grid;
     private Map<Position, Building> buildings;
     private static MapManager instance;
@@ -19,13 +18,9 @@ public class MapManager extends Observable {
 
     /**
      * Constructor for MapManager
-     * @param width
-     * @param height
      */
-    private MapManager(int width, int height) {
-        this.width = width;
-        this.height = height;
-        this.grid = new boolean[height][width];
+    private MapManager() {
+        this.grid = new boolean[GameManager.height][GameManager.width];
         this.buildings = new HashMap<>();
     }
 
@@ -36,7 +31,7 @@ public class MapManager extends Observable {
      */
     public static MapManager getInstance() {
         if (instance == null) {
-            instance = new MapManager(40, 20);
+            instance = new MapManager();
         }
         return instance;
     }
@@ -84,8 +79,14 @@ public class MapManager extends Observable {
      * @return true if the building was added, false otherwise
      */
     public boolean addBuilding(Position position, Building building) {
-        if (!isSpaceAvailable(building, position)) return false;
-        if (!building.costBuildingResources()) return false; 
+        if (!isSpaceAvailable(building, position)){
+            System.out.println("Not enough space");
+            return false;
+        } 
+        if (!building.costBuildingResources()){
+            System.out.println("Not enough resources");
+            return false; 
+        } 
         
         for (int i = 0; i < building.getHeight(); i++) {
             for (int j = 0; j < building.getWidth(); j++) {
@@ -140,7 +141,7 @@ public class MapManager extends Observable {
         int x = position.getX();
         int y = position.getY();
 
-        if (x < 0 || y < 0 || x + building.getWidth() > width || y + building.getHeight() > height) {
+        if (x < 0 || y < 0 || x + building.getWidth() > GameManager.width || y + building.getHeight() > GameManager.height) {
             return false;
         }
     
