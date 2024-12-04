@@ -5,7 +5,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.control.Label?>
 
-<GridPane fx:controller="adrien.controllers.ResourcesController" xmlns:fx="http://javafx.com/fxml" vgap="5" alignment="CENTER">
+<GridPane fx:controller="adrien.controllers.ResourcesController" xmlns:fx="http://javafx.com/fxml" vgap="5" alignment="CENTER" style="-fx-background-color: lightgrey;">
     <VBox spacing="2" alignment="CENTER" GridPane.rowIndex="0">
         <ImageView fx:id="foodImage" />
         <Label fx:id="foodLabel" text="0" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>

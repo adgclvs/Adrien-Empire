@@ -51,7 +51,7 @@ public class MainController {
             }
 
             // Ajouter les vues au BorderPane principal
-            mainPane.setLeft(mapView);
+            mainPane.setCenter(mapView);
             mainPane.setBottom(buildingsView);
             mainPane.setRight(resourcesView);
         } catch (IOException e) {
