@@ -7,6 +7,7 @@
 <StackPane fx:controller="adrien.controllers.MapController" xmlns:fx="http://javafx.com/fxml" fx:id="mapPane">
     <!-- Utilisation d'un StackPane pour superposer les calques -->
 
+    <Pane fx:id="decorPane" />
     <!-- Le GridPane qui contient les images d'herbe -->
     <Pane fx:id="grassGrid" />
 

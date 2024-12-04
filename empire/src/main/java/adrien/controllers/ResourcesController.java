@@ -74,9 +74,7 @@ public class ResourcesController implements Observer {
 
     @Override
     public void update() {
-        Platform.runLater(() -> {
-            updateResourceLabels();
-        });
+        Platform.runLater(this::updateResourceLabels);
     }
 
     public void updateResourceImages() {

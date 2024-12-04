@@ -21,7 +21,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Popup;
-import javafx.stage.Screen;
 import javafx.util.Duration;
 
 public class MapController implements Observer {
@@ -33,7 +32,10 @@ public class MapController implements Observer {
     private Pane grassGrid;
 
     @FXML
-    private Pane buildingPane; 
+    private Pane buildingPane;
+
+    @FXML
+    private Pane decorPane;  // Nouveau Pane pour le décor
 
     private GameManager gameManager;
     private BuildingsController buildingsController;
@@ -41,6 +43,7 @@ public class MapController implements Observer {
 
     public void initialize() {
         if (gameManager != null) {
+            initializeDecor();
             displayMap();
         } else {
             System.out.println("GameManager is not set.");
@@ -210,12 +213,52 @@ public class MapController implements Observer {
         }
     }
 
+    public void initializeDecor() {
+        // Charger l'image d'herbe
+        Image grassImage = ImageCache.getImage("/adrien/images/Tree.png");
+
+        // Dimensions des cellules isométriques
+        double tileWidth = 50; // Largeur de la tuile isométrique
+        double tileHeight = 25; // Hauteur de la tuile isométrique
+
+        // Calcul des offsets pour centrer la grille
+        double offsetX = 875; // Décalage horizontal
+        double offsetY = 25; // Décalage vertical (optionnel)
+
+        // Ajouter des tuiles d'herbe autour de la grille comme décor
+        int decorMargin = 25;  // Nombre de tuiles d'herbe autour de la grille
+        for (int row = -decorMargin; row < GameManager.height + decorMargin; row++) {
+            for (int col = -decorMargin; col < GameManager.width + decorMargin; col++) {
+                // Ne pas ajouter de décor à l'intérieur de la grille principale
+                if (row >= 0 && row < GameManager.height && col >= 0 && col < GameManager.width) {
+                    continue;
+                }
+                // Calcul des positions isométriques pour le décor
+                double x = (col - row) * (tileWidth / 2) + offsetX;
+                double y = (col + row) * (tileHeight / 2) + offsetY;
+
+                // Ajouter la tuile d'herbe au décor
+                ImageView decorImageView = new ImageView(grassImage);
+                decorImageView.setFitWidth(tileWidth);
+                decorImageView.setFitHeight(tileHeight);
+                decorImageView.setLayoutX(x);
+                decorImageView.setLayoutY(y);
+                decorPane.getChildren().add(decorImageView);
+            }
+        }
+
+        // Définir la taille fixe du décorPane pour éviter d'empiéter sur les autres éléments
+        decorPane.setPrefSize((GameManager.width + 2 * decorMargin) * tileWidth, (GameManager.height + 2 * decorMargin) * tileHeight);
+    }
+
     public void displayMap() {
         // Nettoyer les conteneurs
         grassGrid.getChildren().clear();
         buildingPane.getChildren().clear();
         mapPane.getChildren().clear();
-
+    
+        // Ajouter les éléments au mapPane (le StackPane)
+        mapPane.getChildren().add(decorPane);  // Ajouter le décor en premier
         mapPane.getChildren().add(grassGrid);
         mapPane.getChildren().add(buildingPane);
     
@@ -230,7 +273,7 @@ public class MapController implements Observer {
         // Charger l'image d'herbe
         Image grassImage = ImageCache.getImage("/adrien/images/Grass.png");
     
-        // Parcourir la grille
+        // Parcourir la grille principale
         for (int row = 0; row < GameManager.height; row++) {
             for (int col = 0; col < GameManager.width; col++) {
                 final int r = row;
@@ -246,7 +289,8 @@ public class MapController implements Observer {
                 grassImageView.setFitHeight(tileHeight);
                 grassImageView.setLayoutX(x); // Position X avec offset
                 grassImageView.setLayoutY(y); // Position Y avec offset
-    
+
+                // Ajouter la tuile d'herbe au grassGrid
                 grassGrid.getChildren().add(grassImageView);
     
                 // --- Vérifier la présence d'un bâtiment ---
@@ -264,7 +308,7 @@ public class MapController implements Observer {
                     buildingImageView.setFitHeight(tileHeight * building.getHeight());
 
                     // Ajuster la position pour tenir compte de la hauteur du bâtiment
-                    buildingImageView.setLayoutX(buildingX);
+                    buildingImageView.setLayoutX(buildingX - (building.getWidth() - 1) * (tileWidth / 2));
                     buildingImageView.setLayoutY(buildingY - (building.getHeight() - 1) * (tileHeight / 2));
 
                     // Gestion des clics sur le bâtiment
@@ -273,16 +317,15 @@ public class MapController implements Observer {
                         handleCellClick(r, c);
                     });
 
-                    // Ajouter le bâtiment au panneau
+                    // Ajouter le bâtiment au panneau au-dessus des tuiles d'herbe
                     buildingPane.getChildren().add(buildingImageView);
-
 
                     // --- 3. Affichage du timer pour les bâtiments en construction ---
                     if (!building.isOperational()) {
                         Label timerLabel = new Label();
                         timerLabel.setStyle("-fx-background-color: rgba(255, 255, 255, 0.7); -fx-padding: 2; -fx-border-color: black;");
-                        timerLabel.setLayoutX(x);
-                        timerLabel.setLayoutY(y - 20); // Position au-dessus du bâtiment
+                        timerLabel.setLayoutX(buildingX);
+                        timerLabel.setLayoutY(buildingY - 40); // Position au-dessus du bâtiment
     
                         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
                             int remainingTime = building.getConstructionTimeRemaining();

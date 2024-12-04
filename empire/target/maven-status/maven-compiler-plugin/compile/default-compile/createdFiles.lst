@@ -19,11 +19,13 @@ adrien/buildings/LumberMill.class
 adrien/controllers/MainController.class
 adrien/buildings/Quarry.class
 adrien/buildings/BuildingsManager/BuildingFactory$1.class
+adrien/buildings/BuildingsManager/BuildingPrototypes$1.class
 adrien/MapManager.class
 adrien/buildings/ToolFactory.class
 adrien/buildings/WoodenCabin.class
 adrien/Inhabitants.class
 adrien/buildings/SteelMill.class
+adrien/buildings/BuildingsManager/BuildingPrototypes.class
 adrien/buildings/House.class
 adrien/Observer.class
 adrien/GameManager.class
