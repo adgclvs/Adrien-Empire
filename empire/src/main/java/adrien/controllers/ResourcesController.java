@@ -10,6 +10,9 @@ import javafx.scene.control.Label;
 
 public class ResourcesController implements Observer {
 
+    private static final double IMAGE_WIDTH = 70;
+    private static final double IMAGE_HEIGHT = 70;
+
     @FXML
     private ImageView foodImage;
 
@@ -78,45 +81,43 @@ public class ResourcesController implements Observer {
     }
 
     public void updateResourceImages() {
-        double imageWidth = 70;
-        double imageHeight = 70;
         Resource resource = Resource.getInstance();
 
         foodImage.setImage(resource.getResourceImage(ResourceType.FOOD));
-        foodImage.setFitWidth(imageWidth);
-        foodImage.setFitHeight(imageHeight);
+        foodImage.setFitWidth(IMAGE_WIDTH);
+        foodImage.setFitHeight(IMAGE_HEIGHT);
 
         woodImage.setImage(resource.getResourceImage(ResourceType.WOOD));
-        woodImage.setFitWidth(imageWidth);
-        woodImage.setFitHeight(imageHeight);
+        woodImage.setFitWidth(IMAGE_WIDTH);
+        woodImage.setFitHeight(IMAGE_HEIGHT);
 
         stoneImage.setImage(resource.getResourceImage(ResourceType.STONE));
-        stoneImage.setFitWidth(imageWidth);
-        stoneImage.setFitHeight(imageHeight);
+        stoneImage.setFitWidth(IMAGE_WIDTH);
+        stoneImage.setFitHeight(IMAGE_HEIGHT);
 
         coalImage.setImage(resource.getResourceImage(ResourceType.COAL));
-        coalImage.setFitWidth(imageWidth);
-        coalImage.setFitHeight(imageHeight);
+        coalImage.setFitWidth(IMAGE_WIDTH);
+        coalImage.setFitHeight(IMAGE_HEIGHT);
 
         ironImage.setImage(resource.getResourceImage(ResourceType.IRON));
-        ironImage.setFitWidth(imageWidth);
-        ironImage.setFitHeight(imageHeight);
+        ironImage.setFitWidth(IMAGE_WIDTH);
+        ironImage.setFitHeight(IMAGE_HEIGHT);
 
         steelImage.setImage(resource.getResourceImage(ResourceType.STEEL));
-        steelImage.setFitWidth(imageWidth);
-        steelImage.setFitHeight(imageHeight);
+        steelImage.setFitWidth(IMAGE_WIDTH);
+        steelImage.setFitHeight(IMAGE_HEIGHT);
 
         cementImage.setImage(resource.getResourceImage(ResourceType.CEMENT));
-        cementImage.setFitWidth(imageWidth);
-        cementImage.setFitHeight(imageHeight);
+        cementImage.setFitWidth(IMAGE_WIDTH);
+        cementImage.setFitHeight(IMAGE_HEIGHT);
 
         lumberImage.setImage(resource.getResourceImage(ResourceType.LUMBER));
-        lumberImage.setFitWidth(imageWidth);
-        lumberImage.setFitHeight(imageHeight);
+        lumberImage.setFitWidth(IMAGE_WIDTH);
+        lumberImage.setFitHeight(IMAGE_HEIGHT);
 
         toolsImage.setImage(resource.getResourceImage(ResourceType.TOOLS));
-        toolsImage.setFitWidth(imageWidth);
-        toolsImage.setFitHeight(imageHeight);
+        toolsImage.setFitWidth(IMAGE_WIDTH);
+        toolsImage.setFitHeight(IMAGE_HEIGHT);
     }
 
     public void updateResourceLabels() {

@@ -5,9 +5,9 @@ import java.util.List;
 
 public class GameTimer {
     private int currentTick;
-    private int tickDuration; // Durée d'un tick en millisecondes
+    private int tickDuration;
     private boolean running;
-    private List<Runnable> tickListeners; // Liste des actions à exécuter à chaque tick
+    private List<Runnable> tickListeners;
 
     public GameTimer(int tickDuration) {
         this.tickDuration = tickDuration;

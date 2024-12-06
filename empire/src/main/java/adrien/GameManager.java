@@ -9,10 +9,10 @@ import adrien.resources.ResourceType;
 
 public class GameManager{
 
-    private final int tickDuration = 1000;
+    private static final int TICK_DURATION = 1000;
 
-    public static final int width = 35;
-    public static final int height = 35;
+    public static final int WIDTH = 35;
+    public static final int HEIGHT = 35;
 
     private GameTimer gameTimer;
     public static int mapWidth;
@@ -25,7 +25,7 @@ public class GameManager{
         MapManager.getInstance();
         Resource.getInstance();
         Inhabitants.getInstance();
-        this.gameTimer = new GameTimer(tickDuration);
+        this.gameTimer = new GameTimer(TICK_DURATION);
     }
 
 /**********************************GETTER********************************************** */

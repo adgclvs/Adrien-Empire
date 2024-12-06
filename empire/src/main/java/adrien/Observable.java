@@ -3,8 +3,6 @@ package adrien;
 import java.util.ArrayList;
 import java.util.List;
 
-import javafx.application.Platform;
-
 public abstract class Observable {
     private List<Observer> observers;
 

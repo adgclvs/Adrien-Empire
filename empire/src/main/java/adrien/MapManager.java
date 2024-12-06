@@ -20,7 +20,7 @@ public class MapManager extends Observable {
      * Constructor for MapManager
      */
     private MapManager() {
-        this.grid = new boolean[GameManager.height][GameManager.width];
+        this.grid = new boolean[GameManager.HEIGHT][GameManager.WIDTH];
         this.buildings = new HashMap<>();
     }
 
@@ -117,15 +117,21 @@ public class MapManager extends Observable {
      * @return true if the building was removed, false otherwise
      */
     public boolean removeBuilding(Position position) {
-        Building building = buildings.remove(position);
+        Building building = buildings.get(position);
         if (building != null) {
-            deOccupySpace(building, position);
+            Position originPos = building.getOrigin();
+            for(int row = 0; row < building.getHeight(); row++) {
+                for(int col = 0; col < building.getWidth(); col++) {
+                    Position newPosition = new Position(originPos.getX() + col, originPos.getY() + row);
+                    buildings.remove(newPosition);
+                }
+            }
+            deOccupySpace(building, originPos);
             int numberOfInhabitants = building.getMaxInhabitants();
             Inhabitants.removeInhabitants(numberOfInhabitants);
             this.notifyObservers();
             return true;
         }
-        this.notifyObservers();
         return false;
     }
 
@@ -141,7 +147,7 @@ public class MapManager extends Observable {
         int x = position.getX();
         int y = position.getY();
 
-        if (x < 0 || y < 0 || x + building.getWidth() > GameManager.width || y + building.getHeight() > GameManager.height) {
+        if (x < 0 || y < 0 || x + building.getWidth() > GameManager.WIDTH || y + building.getHeight() > GameManager.HEIGHT) {
             return false;
         }
     

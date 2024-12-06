@@ -305,10 +305,10 @@ public class MapController implements Observer {
 
         // Ajouter des tuiles d'herbe autour de la grille comme décor
         int decorMargin = 25;  // Nombre de tuiles d'herbe autour de la grille
-        for (int row = -decorMargin; row < GameManager.height + decorMargin; row++) {
-            for (int col = -decorMargin; col < GameManager.width + decorMargin; col++) {
+        for (int row = -decorMargin; row < GameManager.HEIGHT + decorMargin; row++) {
+            for (int col = -decorMargin; col < GameManager.WIDTH + decorMargin; col++) {
                 // Ne pas ajouter de décor à l'intérieur de la grille principale
-                if (row >= 0 && row < GameManager.height && col >= 0 && col < GameManager.width) {
+                if (row >= 0 && row < GameManager.HEIGHT && col >= 0 && col < GameManager.WIDTH) {
                     continue;
                 }
                 // Calcul des positions isométriques pour le décor
@@ -331,7 +331,7 @@ public class MapController implements Observer {
         }
 
         // Définir la taille fixe du décorPane pour éviter d'empiéter sur les autres éléments
-        decorPane.setPrefSize((GameManager.width + 2 * decorMargin) * tileWidth, (GameManager.height + 2 * decorMargin) * tileHeight);
+        decorPane.setPrefSize((GameManager.WIDTH + 2 * decorMargin) * tileWidth, (GameManager.HEIGHT + 2 * decorMargin) * tileHeight);
     }
 
 /*********************************************DISPLAY MAP****************************************************** */
@@ -352,8 +352,8 @@ public class MapController implements Observer {
         double offsetY = 25;
     
         // Parcourir la grille et ajouter les éléments
-        for (int row = 0; row < GameManager.height; row++) {
-            for (int col = 0; col < GameManager.width; col++) {
+        for (int row = 0; row < GameManager.HEIGHT; row++) {
+            for (int col = 0; col < GameManager.WIDTH; col++) {
                 double x = (col - row) * (tileWidth / 2) + offsetX;
                 double y = (col + row) * (tileHeight / 2) + offsetY;
     

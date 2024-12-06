@@ -12,7 +12,6 @@ adrien/controllers/BuildingsController.class
 adrien/MainApp.class
 adrien/buildings/BuildingsManager/BuildingFactory.class
 adrien/controllers/MapController.class
-adrien/controllers/ButtonController.class
 adrien/buildings/BuildingsManager/Building.class
 adrien/buildings/CementPlant.class
 adrien/buildings/LumberMill.class

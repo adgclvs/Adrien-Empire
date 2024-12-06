@@ -3,11 +3,11 @@ package adrien.resources;
 import java.util.HashMap;
 import java.util.Map;
 
+import adrien.ImageCache;
 import adrien.Observable;
 import javafx.scene.image.Image;
 
 public class Resource extends Observable {
-    private final Map<String, Image> imageCache = new HashMap<>();
     private static Resource instance;
     private Map<ResourceType, Integer> resources;
 
@@ -88,18 +88,12 @@ public class Resource extends Observable {
      * @return image
      */
     public Image getResourceImage(ResourceType resourceType) {
-        String resourceTypeString = resourceType.toString();
-        if (imageCache.containsKey(resourceTypeString)) {
-            return imageCache.get(resourceTypeString);
-        }
 
-        // Charger l'image uniquement si elle n'est pas déjà en cache
         try {
-            Image image = new Image(Resource.class.getResourceAsStream("/adrien/images/resources/" + resourceTypeString.toLowerCase() + ".png"));
-            imageCache.put(resourceTypeString, image);
+            Image image = ImageCache.getImage("/adrien/images/resources/" + resourceType.toString().toLowerCase() + ".png");
             return image;
         } catch (Exception e) {
-            System.err.println("Failed to load image for resource: " + resourceTypeString);
+            System.err.println("Failed to load image for resource: " + resourceType.toString());
             return null;
         }
     }

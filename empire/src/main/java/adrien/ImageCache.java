@@ -18,7 +18,7 @@ public class ImageCache {
             return image;
         } catch (Exception e) {
             System.err.println("Error loading image: " + path);
-            return null; // Ou une image par défaut
+            return null;
         }
     }
 }

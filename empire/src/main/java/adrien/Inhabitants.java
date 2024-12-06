@@ -1,6 +1,8 @@
 package adrien;
 
 public class Inhabitants {
+    private static final int INITIAL_NUMBER_INHABITANTS = 0;
+
     private static int number_inhabitants;
     private static int number_workers;
 
@@ -18,7 +20,7 @@ public class Inhabitants {
      */
     public static Inhabitants getInstance() {
         if (instance == null) {
-            instance = new Inhabitants(0);
+            instance = new Inhabitants(INITIAL_NUMBER_INHABITANTS);
         }
         return instance;
     }

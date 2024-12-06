@@ -1,32 +1,36 @@
 package adrien.controllers;
 
-import adrien.buildings.BuildingsManager.BuildingType;
-import adrien.buildings.BuildingsManager.Building;
-import adrien.buildings.BuildingsManager.BuildingPrototypes;
-import adrien.resources.Resource;
-import adrien.resources.ResourceRequirement;
+import adrien.buildings.BuildingsManager.*;
+import adrien.resources.*;
+import adrien.ImageCache;
 import adrien.Observer;
 import adrien.SharedState;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import javafx.stage.Popup;
-import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.stage.Popup;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class BuildingsController implements Observer {
 
+    private static final double BUILDINGS_IMAGE_WIDTH = 100;
+    private static final double BUILDINGS_IMAGE_HEIGHT = 100;
+    private static final double RESOURCE_IMAGE_SIZE = 50;
+    private static final double GAP = 10;
+
     @FXML
     private HBox listBuildings;
 
-    private Map<BuildingType, Popup> popups = new HashMap<>();
+    private final Map<BuildingType, Popup> popups = new HashMap<>();
+    private final Map<String, Label> resourceLabels = new HashMap<>();
 
     @FXML
     public void initialize() {
@@ -36,82 +40,118 @@ public class BuildingsController implements Observer {
 
     @Override
     public void update() {
-        // Mettre à jour les labels de ressources dans les popups lorsque les ressources changent
         Platform.runLater(this::updateResourceLabels);
     }
 
+    /**
+     * Load the images of the buildings
+     * and create the popups
+     */
     private void loadBuildingImages() {
         listBuildings.getChildren().clear();
         popups.clear();
+
         for (BuildingType buildingType : BuildingType.values()) {
-            String imagePath = "/adrien/images/buildings/!" + buildingType.toString().toLowerCase() + ".png";
-            Image buildingImage = new Image(getClass().getResourceAsStream(imagePath));
-            ImageView buildingImageView = new ImageView(buildingImage);
-            buildingImageView.setFitWidth(100);
-            buildingImageView.setFitHeight(100);
-            buildingImageView.setPreserveRatio(true);
-
-            // Créer une Popup pour afficher les ressources nécessaires lors du survol
+            ImageView buildingImageView = createBuildingImageView(buildingType);
             Popup popup = createResourcePopup(buildingType);
-            popups.put(buildingType, popup);
 
-            buildingImageView.setOnMouseEntered(event -> {
-                popup.show(buildingImageView, event.getScreenX() + 10, event.getScreenY() + 10);
-            });
-
-            buildingImageView.setOnMouseExited(event -> {
-                popup.hide();
-            });
-
-            buildingImageView.setOnMouseClicked(event -> {
-                SharedState.setSelectedBuildingType(buildingType);  // Mise à jour du SharedState avec le type sélectionné
-                System.out.println("Selected building: " + buildingType);
-            });
+            buildingImageView.setOnMouseEntered(event -> popup.show(buildingImageView, event.getScreenX() + GAP, event.getScreenY() + GAP));
+            buildingImageView.setOnMouseExited(event -> popup.hide());
+            buildingImageView.setOnMouseClicked(event -> selectBuilding(buildingType));
 
             listBuildings.getChildren().add(buildingImageView);
+            popups.put(buildingType, popup);
         }
     }
 
+    /**
+     * Create an ImageView for a building
+     * @param buildingType the type of the building
+     * @return the ImageView
+     */
+    private ImageView createBuildingImageView(BuildingType buildingType) {
+        String imagePath = "/adrien/images/buildings/!" + buildingType.toString().toLowerCase() + ".png";
+        Image buildingImage = ImageCache.getImage(imagePath);
+        ImageView buildingImageView = new ImageView(buildingImage);
+        buildingImageView.setFitWidth(BUILDINGS_IMAGE_WIDTH);
+        buildingImageView.setFitHeight(BUILDINGS_IMAGE_HEIGHT);
+        buildingImageView.setPreserveRatio(true);
+        return buildingImageView;
+    }
+
+    /**
+     * Select a building
+     * @param buildingType the type of the building
+     */
+    private void selectBuilding(BuildingType buildingType) {
+        SharedState.setSelectedBuildingType(buildingType);
+        System.out.println("Selected building: " + buildingType);
+    }
+
+    /**
+     * Create a popup for a building
+     * @param buildingType the type of the building
+     * @return the popup
+     */
     private Popup createResourcePopup(BuildingType buildingType) {
         Popup popup = new Popup();
         VBox popupContent = new VBox();
         popupContent.setStyle("-fx-background-color: white; -fx-padding: 10; -fx-border-color: black; -fx-border-radius: 10; -fx-background-radius: 10;");
         popup.getContent().add(popupContent);
 
-        // Récupérer le prototype du bâtiment
         Building prototype = BuildingPrototypes.getPrototype(buildingType);
 
-        // Ajouter les informations sur les ressources nécessaires
         for (ResourceRequirement requirement : prototype.getConstructionMaterials()) {
-            int requiredAmount = requirement.getQuantity();
-            int availableAmount = Resource.getInstance().getResource(requirement.getResourceType());
-
-            // Charger l'image de la ressource
-            String resourceImagePath = "/adrien/images/resources/" + requirement.getResourceType().toString().toLowerCase() + ".png";
-            Image resourceImage = new Image(getClass().getResourceAsStream(resourceImagePath));
-            ImageView resourceImageView = new ImageView(resourceImage);
-            resourceImageView.setFitWidth(50);
-            resourceImageView.setFitHeight(50);
-            resourceImageView.setPreserveRatio(true);
-
-            // Créer un label pour la quantité
-            Label resourceLabel = new Label(availableAmount + "/" + requiredAmount);
-            resourceLabel.setId(requirement.getResourceType().toString()); // Utiliser l'ID pour identifier le label
-            resourceLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
-            if (availableAmount >= requiredAmount) {
-                resourceLabel.setTextFill(Color.GREEN);
-            } else {
-                resourceLabel.setTextFill(Color.RED);
-            }
-
-            HBox resourceBox = new HBox(resourceImageView, resourceLabel);
-            resourceBox.setAlignment(Pos.CENTER);
+            HBox resourceBox = createResourceBox(requirement);
             popupContent.getChildren().add(resourceBox);
         }
 
         return popup;
     }
 
+    /**
+     * Create a box for a resource requirement
+     * @param requirement the resource requirement
+     * @return the box
+     */
+    private HBox createResourceBox(ResourceRequirement requirement) {
+        String resourceImagePath = "/adrien/images/resources/" + requirement.getResourceType().toString().toLowerCase() + ".png";
+        ImageView resourceImageView = createImageView(resourceImagePath, RESOURCE_IMAGE_SIZE);
+
+        int requiredAmount = requirement.getQuantity();
+        int availableAmount = Resource.getInstance().getResource(requirement.getResourceType());
+
+        Label resourceLabel = new Label(availableAmount + "/" + requiredAmount);
+        resourceLabel.setId(requirement.getResourceType().toString());
+        resourceLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
+        resourceLabel.setTextFill(availableAmount >= requiredAmount ? Color.GREEN : Color.RED);
+
+        // Ajouter le label dans une map pour un accès rapide lors de la mise à jour
+        resourceLabels.put(requirement.getResourceType().toString(), resourceLabel);
+
+        HBox resourceBox = new HBox(resourceImageView, resourceLabel);
+        resourceBox.setAlignment(Pos.CENTER);
+        return resourceBox;
+    }
+
+    /**
+     * Create an ImageView for a resource
+     * @param imagePath the path of the image
+     * @param size the size of the image
+     * @return the ImageView
+     */
+    private ImageView createImageView(String imagePath, double size) {
+        Image resourceImage = new Image(getClass().getResourceAsStream(imagePath));
+        ImageView imageView = new ImageView(resourceImage);
+        imageView.setFitWidth(size);
+        imageView.setFitHeight(size);
+        imageView.setPreserveRatio(true);
+        return imageView;
+    }
+
+    /**
+     * Update the labels of the resources
+     */
     private void updateResourceLabels() {
         for (Map.Entry<BuildingType, Popup> entry : popups.entrySet()) {
             BuildingType buildingType = entry.getKey();

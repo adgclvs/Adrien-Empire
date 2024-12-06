@@ -2,14 +2,13 @@ package adrien.buildings.BuildingsManager;
 
 import adrien.resources.*;
 
-
 import adrien.Inhabitants;
-import adrien.Observable;
 import adrien.Position;
 
 
 public abstract class Building{
-    private final int tick_in_hour = 24;
+    private static final int TICK_IN_A_DAY = 24;
+    private static final int INITIAL_CURRENT_WORKERS = 0;
 
     private BuildingType type;
 
@@ -42,11 +41,10 @@ public abstract class Building{
         this.type = type;
         this.maxInhabitants = maxInhabitants;
         this.maxWorkers = maxWorkers;
-        this.currentWorkers = 0;
-        this.constructionTime = tick_in_hour * constructionTime;
+        this.currentWorkers = INITIAL_CURRENT_WORKERS;
+        this.constructionTime = TICK_IN_A_DAY * constructionTime;
         this.constructionTimeRemaining = this.constructionTime;
         this.isOperational = false;
-
         this.width = width;
         this.height = height;
         this.constructionMaterials = constructionMaterials;
