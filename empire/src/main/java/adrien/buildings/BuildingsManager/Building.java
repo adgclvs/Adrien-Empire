@@ -1,9 +1,12 @@
 package adrien.buildings.BuildingsManager;
 
 import adrien.resources.*;
-
 import adrien.Inhabitants;
 import adrien.Position;
+import adrien.Exceptions.CustomException;
+import adrien.Exceptions.ResourceConsuptionException;
+import adrien.Exceptions.ResourceProductionException;
+import adrien.Exceptions.WorkerException;
 
 
 public abstract class Building{
@@ -202,34 +205,39 @@ public abstract class Building{
      * @param workers
      * @return true if the workers were added, false otherwise
      */
-    public boolean addWorkers(int workers) {
-        if (!isOperational || currentWorkers + workers > maxWorkers) {
-            return false;
+    public boolean addWorkers(int workers) throws WorkerException {
+        if( !isOperational){
+            throw new WorkerException("Building is not operational.");
         }
-        if(Inhabitants.addWorkers(workers)){
+        if (currentWorkers + workers > maxWorkers) {
+            throw new WorkerException("Cannot add more workers than the maximum.");
+        }
+        if (Inhabitants.getInstance().addWorkers(workers)) {
             currentWorkers += workers;
             setProducing(true);
-        }else{
-            return false;
+        } else {
+            throw new WorkerException("Failed to add workers to Inhabitants.");
         }
-
-        return true;
-    }
+    return true;
+}
 
     /**
      * Remove workers from the building
      * @param workers
      * @return true if the workers were removed, false otherwise
      */
-    public boolean removeWorkers(int workers) {
-        if(!isOperational || currentWorkers - workers < 0){
-            return false;
+    public boolean removeWorkers(int workers) throws WorkerException {
+        if(!isOperational){
+            throw new WorkerException("Building is not operational.");
         }
-        if(Inhabitants.removeWorkers(workers)){
+        if(currentWorkers - workers < 0){
+            throw new WorkerException("Cannot remove more workers than the current number.");
+        }
+        if(Inhabitants.getInstance().removeWorkers(workers)){
             currentWorkers -= workers;
             setProducing(false);
         }else{
-            return false;
+            throw new WorkerException("Failed to remove workers from Inhabitants.");
         }
         return true;
     }
@@ -239,9 +247,9 @@ public abstract class Building{
     /**
      * Produce resources
      */
-    public void produceResources() {
+    public void produceResources() throws ResourceProductionException {
         if(production == null){
-            return;
+            throw new ResourceProductionException("Building does not produce resources.");
         }
         for (ResourceRequirement resourceRequirement : production) {
             ResourceRequirement newResourceRequirement = new ResourceRequirement(resourceRequirement.getResourceType(), resourceRequirement.getQuantity() * currentWorkers);
@@ -252,16 +260,10 @@ public abstract class Building{
     /**
      * Consume resources
      */
-    public void consumeResources() {
+    public void consumeResources() throws ResourceConsuptionException {
         // Check si le batiment consomme des ressources
         if(consumption == null){
-            return;
-        }
-        // Check si on a assez de ressources pour consommer
-        if(!Resource.getInstance().haveAllResources(consumption)){
-            System.out.println("Not enough resources to consume");
-            setProducing(false);
-            return;
+            throw new ResourceConsuptionException("Building does not consume resources.");
         }
         // Consomme les ressources
         for (ResourceRequirement resourceRequirement : consumption) {
@@ -269,8 +271,12 @@ public abstract class Building{
                 resourceRequirement.getResourceType(),
                 resourceRequirement.getQuantity() * currentWorkers
             );
-    
-            Resource.getInstance().consumeResource(newResourceRequirement);
+            try{
+                Resource.getInstance().consumeResource(newResourceRequirement);
+            }catch(ResourceConsuptionException e){
+                setProducing(false);
+                throw new ResourceConsuptionException("Not enough resources to consume.");
+            }
         }
     }
     
@@ -279,10 +285,12 @@ public abstract class Building{
      * Check if the building has all the resources to be built
      * @return true if the building has all the resources, false otherwise
      */
-    public boolean costBuildingResources(){
+    public boolean costBuildingResources() {
         Resource instance = Resource.getInstance();
         for(ResourceRequirement resourceRequirement : constructionMaterials){
-            if (!instance.consumeResource(resourceRequirement)) {
+            try{
+                instance.consumeResource(resourceRequirement);
+            }catch(ResourceConsuptionException e){
                 return false;
             }
         }

@@ -25,12 +25,20 @@ public class Inhabitants {
         return instance;
     }
 
+    /**
+     * Set the instance of the Inhabitants for testing purposes
+     * @param newInstance
+     */
+    public static void setInstance(Inhabitants newInstance) {
+        instance = newInstance;
+    }
+
 /**********************************INHABITANTS********************************************** */
 
     /**
      * Get the number of inhabitants
      */
-    public static int getNumberInhabitants() {
+    public int getNumberInhabitants() {
         return number_inhabitants;
     }
 
@@ -38,7 +46,7 @@ public class Inhabitants {
      * Add inhabitants to the city
      * @param number Number of inhabitants to add
      */
-    public static void addInhabitants(int number) {
+    public void addInhabitants(int number) {
         number_inhabitants += number;
         System.out.println("number" + number_inhabitants);
     }
@@ -47,7 +55,7 @@ public class Inhabitants {
      * Remove inhabitants from the city
      * @param number Number of inhabitants to remove
      */
-    public static void removeInhabitants(int number) {
+    public void removeInhabitants(int number) {
         number_inhabitants -= number;
         if (number_inhabitants < 0) {
             number_inhabitants = 0;
@@ -59,7 +67,7 @@ public class Inhabitants {
     /**
      * Get the number of workers
      */
-    public static int getNumberWorkers() {
+    public int getNumberWorkers() {
         return number_workers;
     }
 
@@ -67,7 +75,7 @@ public class Inhabitants {
      * Add workers to the city
      * @param number Number of workers to add
      */
-    public static boolean addWorkers(int number) {
+    public boolean addWorkers(int number) {
         System.out.println("number_workers: " + number_workers);
         
         if(number_workers + number > number_inhabitants){
@@ -81,7 +89,7 @@ public class Inhabitants {
      * Remove workers from the city
      * @param number Number of workers to remove
      */
-    public static boolean removeWorkers(int number) {
+    public boolean removeWorkers(int number) {
         if (number_workers - number < 0) {
             return false;   
         }

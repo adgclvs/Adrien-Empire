@@ -1,11 +1,12 @@
 package adrien.buildings.BuildingsManager;
 
 import adrien.Position;
+import adrien.Exceptions.BuildingException;
 import adrien.buildings.*;
 
 public class BuildingFactory {
 
-    public static Building createBuilding(BuildingType type, Position pos) {
+    public static Building createBuilding(BuildingType type, Position pos) throws BuildingException{
         switch (type) {
             case APARTMENT_BUILDING:
                 return new ApartmentBuilding(pos);
@@ -26,7 +27,7 @@ public class BuildingFactory {
             case WOODEN_CABIN:
                 return new WoodenCabin(pos);
             default:
-                throw new IllegalArgumentException("Unknown building type: " + type);
+                throw new BuildingException("Building type not found");
         }
     }
 }

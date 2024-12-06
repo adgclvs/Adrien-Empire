@@ -5,6 +5,8 @@ import java.util.Map;
 
 import adrien.ImageCache;
 import adrien.Observable;
+import adrien.Exceptions.CustomException;
+import adrien.Exceptions.ResourceConsuptionException;
 import javafx.scene.image.Image;
 
 public class Resource extends Observable {
@@ -35,11 +37,19 @@ public class Resource extends Observable {
      * Get the instance of the Resource
      * @return instance
     */
-    public static Resource getInstance() {
+    public static Resource getInstance(){
         if (instance == null) {
             instance = new Resource();
         }
         return instance;
+    }
+
+    /**
+     * Set the instance of the Resource for testing purposes
+     * @param newInstance
+     */
+    public static void setInstance(Resource newInstance) {
+        instance = newInstance;
     }
 
      /*************************************GETTER***************************************** */
@@ -59,27 +69,6 @@ public class Resource extends Observable {
      */
     public Map<ResourceType, Integer> getResources() {
         return resources;
-    }
-
-    /**
-     * Check if the city has all the resources required
-     * @param resourceRequirements
-     * @return boolean
-     */
-    public boolean haveAllResources(ResourceRequirement[] resourceRequirements) {
-        if (resourceRequirements == null) {
-            System.out.println("Resource requirements are not initialized.");
-            return false;
-        }
-        for (ResourceRequirement resourceRequirement : resourceRequirements) {
-            ResourceType resourceType = resourceRequirement.getResourceType();
-            int amount = resourceRequirement.getQuantity();
-            int currentAmount = resources.getOrDefault(resourceType, 0);
-            if (currentAmount < amount) {
-                return false;
-            }
-        }
-        return true;
     }
 
     /**
@@ -117,18 +106,16 @@ public class Resource extends Observable {
      * @param resourceRequirement
      * @return boolean
      */
-    public boolean consumeResource(ResourceRequirement resourceRequirement) {
+    public boolean consumeResource(ResourceRequirement resourceRequirement) throws ResourceConsuptionException{
         ResourceType resourceType = resourceRequirement.getResourceType();
         int amount = resourceRequirement.getQuantity();
-        System.out.println("Consuming " + amount + " " + resourceType);
         int currentAmount = resources.getOrDefault(resourceType, 0);
         if (currentAmount >= amount) {
             resources.put(resourceType, currentAmount - amount);
             this.notifyObservers();
             return true;
         } else {
-            System.out.println("Not enough " + resourceType);
-            return false;
+            throw new ResourceConsuptionException("Not enough resources: " + resourceType.toString());
         }
     }
 

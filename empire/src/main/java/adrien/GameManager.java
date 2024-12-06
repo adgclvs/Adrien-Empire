@@ -1,5 +1,11 @@
 package adrien;
 
+import adrien.Exceptions.BuildingException;
+import adrien.Exceptions.CustomException;
+import adrien.Exceptions.NoFoodException;
+import adrien.Exceptions.ResourceConsuptionException;
+import adrien.Exceptions.ResourceProductionException;
+import adrien.Exceptions.WorkerException;
 import adrien.buildings.BuildingsManager.Building;
 import adrien.buildings.BuildingsManager.BuildingFactory;
 import adrien.buildings.BuildingsManager.BuildingType;
@@ -67,13 +73,19 @@ public class GameManager{
      */
     public void gameTick() {
         System.out.println("Tick executed.");
-        if (gameTimer.getCurrentTick() % 24 == 0 && gameTimer.getCurrentTick() > 0) {
-            updateResourceProduction();
-            updateResourceConsumption();
-            updateEatingInhabitants();
-            System.out.println("Resources updated (24-hour cycle).");
+        try {
+
+            if (gameTimer.getCurrentTick() % 24 == 0 && gameTimer.getCurrentTick() > 0) {
+                updateResourceProduction();
+                updateResourceConsumption();
+                updateEatingInhabitants();
+                System.out.println("Resources updated (24-hour cycle).");
+            }
+            updateBuildingStatuses();
+        } catch (NoFoodException e) {
+            System.err.println("Game over: " + e.getMessage());
+            stopGame();
         }
-        updateBuildingStatuses();
     }
 
 /**********************************UPDATES********************************************** */
@@ -85,8 +97,12 @@ public class GameManager{
         for (Building building : MapManager.getInstance().getAllBuildings()) {
             if(building.getCurrentWorkers() > 0){
                 if (building.isProducing()) {
-                    building.produceResources();
-                    System.out.println("Resources produced by: " + building.getType());
+                    try {
+                        building.produceResources();
+                        System.out.println("Resources produced by: " + building.getType());
+                    } catch (ResourceProductionException e) {
+                        e.printStackTrace();
+                    }
                 }
                 building.setProducing(true);
             }
@@ -99,8 +115,12 @@ public class GameManager{
     private void updateResourceConsumption() {
         for (Building building : MapManager.getInstance().getAllBuildings()) {
             if (building.isOperational() && building.getCurrentWorkers() > 0) {
-                building.consumeResources();
-                System.out.println("Resources consumed by: " + building.getType());
+                try {
+                    building.consumeResources();
+                    System.out.println("Resources consumed by: " + building.getType());
+                } catch (ResourceConsuptionException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -124,9 +144,13 @@ public class GameManager{
     /**
      * Update the number of inhabitants eating
      */
-    private void updateEatingInhabitants() {
-        ResourceRequirement resourceRequirement = new ResourceRequirement(ResourceType.FOOD, Inhabitants.getNumberInhabitants());
-        Resource.getInstance().consumeResource(resourceRequirement);
+    private void updateEatingInhabitants() throws NoFoodException{
+        ResourceRequirement resourceRequirement = new ResourceRequirement(ResourceType.FOOD, Inhabitants.getInstance().getNumberInhabitants());
+        try {
+            Resource.getInstance().consumeResource(resourceRequirement);
+        } catch (ResourceConsuptionException e) {
+            throw new NoFoodException("Not enough food for inhabitants.");
+        }
         
     }
 
@@ -141,7 +165,13 @@ public class GameManager{
      */
     public boolean addBuilding(BuildingType buildingType, int x, int y) {
         Position position = new Position(x, y);
-        Building newBuilding = BuildingFactory.createBuilding(buildingType,position);
+        Building newBuilding = null;
+        try {
+            newBuilding = BuildingFactory.createBuilding(buildingType,position);
+        }catch (BuildingException e){
+            e.printStackTrace();
+            return false;
+        }
         boolean result = MapManager.getInstance().addBuilding(position, newBuilding);
         return result;
     }
@@ -166,7 +196,12 @@ public class GameManager{
      * @return true if the workers were added, false otherwise
      */
     public boolean addWorkers(Building building, int workers) {
-       return building.addWorkers(workers);
+        try {
+            return building.addWorkers(workers);
+        } catch (WorkerException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     /**
@@ -176,6 +211,11 @@ public class GameManager{
      * @return true if the workers were removed, false otherwise
      */
     public boolean removeWorkers(Building building, int workers) {
-        return building.removeWorkers(workers);
+        try {
+            return building.removeWorkers(workers);
+        } catch (WorkerException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

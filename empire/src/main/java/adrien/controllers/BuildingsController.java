@@ -5,6 +5,8 @@ import adrien.resources.*;
 import adrien.ImageCache;
 import adrien.Observer;
 import adrien.SharedState;
+import adrien.Exceptions.BuildingException;
+import adrien.Exceptions.CustomException;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -99,7 +101,12 @@ public class BuildingsController implements Observer {
         popupContent.setStyle("-fx-background-color: white; -fx-padding: 10; -fx-border-color: black; -fx-border-radius: 10; -fx-background-radius: 10;");
         popup.getContent().add(popupContent);
 
-        Building prototype = BuildingPrototypes.getPrototype(buildingType);
+        Building prototype = null;
+        try{
+            prototype = BuildingPrototypes.getPrototype(buildingType);
+        }catch (BuildingException e){
+            e.printStackTrace();
+        }
 
         for (ResourceRequirement requirement : prototype.getConstructionMaterials()) {
             HBox resourceBox = createResourceBox(requirement);
@@ -159,7 +166,12 @@ public class BuildingsController implements Observer {
             VBox popupContent = (VBox) popup.getContent().get(0);
 
             // Récupérer le prototype du bâtiment
-            Building prototype = BuildingPrototypes.getPrototype(buildingType);
+            Building prototype = null;
+            try {
+                prototype = BuildingPrototypes.getPrototype(buildingType);
+            }catch (BuildingException e){
+                e.printStackTrace();
+            }
 
             // Mettre à jour les informations sur les ressources nécessaires
             for (ResourceRequirement requirement : prototype.getConstructionMaterials()) {

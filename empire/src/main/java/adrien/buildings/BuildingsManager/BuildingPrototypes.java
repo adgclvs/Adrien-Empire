@@ -1,7 +1,7 @@
 package adrien.buildings.BuildingsManager;
 
 import adrien.Position;
-
+import adrien.Exceptions.BuildingException;
 import adrien.buildings.ApartmentBuilding;
 import adrien.buildings.CementPlant;
 import adrien.buildings.Farm;
@@ -24,7 +24,7 @@ public class BuildingPrototypes {
     public static final Building TOOL_FACTORY = new ToolFactory(new Position(0, 0));
     public static final Building WOODEN_CABIN = new WoodenCabin(new Position(0, 0));
 
-    public static Building getPrototype(BuildingType type) {
+    public static Building getPrototype(BuildingType type) throws BuildingException{
         switch (type) {
             case APARTMENT_BUILDING:
                 return APARTMENT_BUILDING;
@@ -45,7 +45,7 @@ public class BuildingPrototypes {
             case WOODEN_CABIN:
                 return WOODEN_CABIN;
             default:
-                throw new IllegalArgumentException("Unknown building type: " + type);
+                throw new BuildingException("Building type not found");   
         }
     }
 }

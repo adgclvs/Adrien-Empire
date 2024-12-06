@@ -164,7 +164,7 @@ public class MapController implements Observer {
         inhabitantsLabel.setStyle("-fx-font-size: 14px;");
         generalInfoBox.getChildren().add(inhabitantsLabel);
     
-        int availableWorkers = Inhabitants.getNumberInhabitants() - Inhabitants.getNumberWorkers();
+        int availableWorkers = Inhabitants.getInstance().getNumberInhabitants() - Inhabitants.getInstance().getNumberWorkers();
         Label availableWorkersLabel = new Label("Available Workers: " + availableWorkers);
         availableWorkersLabel.setStyle("-fx-font-size: 14px;");
         generalInfoBox.getChildren().add(availableWorkersLabel);
@@ -243,7 +243,7 @@ public class MapController implements Observer {
         updateProductionBox(building, productionBox);
     
         Label availableWorkersLabel = (Label) generalInfoBox.getChildren().get(3);
-        int availableWorkers = Inhabitants.getNumberInhabitants() - Inhabitants.getNumberWorkers();
+        int availableWorkers = Inhabitants.getInstance().getNumberInhabitants() - Inhabitants.getInstance().getNumberWorkers();
         availableWorkersLabel.setText("Available Workers: " + availableWorkers);
     }
     

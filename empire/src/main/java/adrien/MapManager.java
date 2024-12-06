@@ -83,6 +83,7 @@ public class MapManager extends Observable {
             System.out.println("Not enough space");
             return false;
         } 
+        
         if (!building.costBuildingResources()){
             System.out.println("Not enough resources");
             return false; 
@@ -106,8 +107,8 @@ public class MapManager extends Observable {
      */
     public boolean addInitialInhabitant(Building building) {
         int numberOfInhabitants = building.getMaxInhabitants();
-        Inhabitants.addInhabitants(numberOfInhabitants);
-        this.notifyObservers(); // ?
+        Inhabitants.getInstance().addInhabitants(numberOfInhabitants);
+        this.notifyObservers(); 
         return true;
     }
 
@@ -128,7 +129,7 @@ public class MapManager extends Observable {
             }
             deOccupySpace(building, originPos);
             int numberOfInhabitants = building.getMaxInhabitants();
-            Inhabitants.removeInhabitants(numberOfInhabitants);
+            Inhabitants.getInstance().removeInhabitants(numberOfInhabitants);
             this.notifyObservers();
             return true;
         }
