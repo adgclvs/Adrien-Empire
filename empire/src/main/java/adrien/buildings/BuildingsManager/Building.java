@@ -1,12 +1,11 @@
 package adrien.buildings.BuildingsManager;
 
 import adrien.resources.*;
-import adrien.Inhabitants;
-import adrien.Position;
-import adrien.Exceptions.CustomException;
-import adrien.Exceptions.ResourceConsuptionException;
-import adrien.Exceptions.ResourceProductionException;
-import adrien.Exceptions.WorkerException;
+import adrien.exceptions.CustomException;
+import adrien.exceptions.ResourceConsuptionException;
+import adrien.exceptions.ResourceProductionException;
+import adrien.exceptions.WorkerException;
+import adrien.game.Inhabitants;
 
 
 public abstract class Building{

@@ -1,8 +1,8 @@
 package adrien.buildings;
 
-import adrien.Position;
 import adrien.buildings.BuildingsManager.Building;
 import adrien.buildings.BuildingsManager.BuildingType;
+import adrien.buildings.BuildingsManager.Position;
 import adrien.resources.ResourceRequirement;
 import adrien.resources.ResourceType;
 

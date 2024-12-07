@@ -1,8 +1,7 @@
 package adrien.buildings.BuildingsManager;
 
-import adrien.Position;
-import adrien.Exceptions.BuildingException;
 import adrien.buildings.*;
+import adrien.exceptions.BuildingException;
 
 public class BuildingFactory {
 

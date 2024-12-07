@@ -1,7 +1,5 @@
 package adrien.buildings.BuildingsManager;
 
-import adrien.Position;
-import adrien.Exceptions.BuildingException;
 import adrien.buildings.ApartmentBuilding;
 import adrien.buildings.CementPlant;
 import adrien.buildings.Farm;
@@ -11,6 +9,7 @@ import adrien.buildings.Quarry;
 import adrien.buildings.SteelMill;
 import adrien.buildings.ToolFactory;
 import adrien.buildings.WoodenCabin;
+import adrien.exceptions.BuildingException;
 
 public class BuildingPrototypes {
 

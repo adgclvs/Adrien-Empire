@@ -1,12 +1,11 @@
 package adrien.controllers;
 
 import adrien.buildings.BuildingsManager.*;
+import adrien.exceptions.BuildingException;
+import adrien.game.ImageCache;
+import adrien.game.SharedState;
+import adrien.observers.Observer;
 import adrien.resources.*;
-import adrien.ImageCache;
-import adrien.Observer;
-import adrien.SharedState;
-import adrien.Exceptions.BuildingException;
-import adrien.Exceptions.CustomException;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;

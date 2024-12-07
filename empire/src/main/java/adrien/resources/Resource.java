@@ -3,10 +3,9 @@ package adrien.resources;
 import java.util.HashMap;
 import java.util.Map;
 
-import adrien.ImageCache;
-import adrien.Observable;
-import adrien.Exceptions.CustomException;
-import adrien.Exceptions.ResourceConsuptionException;
+import adrien.exceptions.ResourceConsuptionException;
+import adrien.game.ImageCache;
+import adrien.observers.Observable;
 import javafx.scene.image.Image;
 
 public class Resource extends Observable {

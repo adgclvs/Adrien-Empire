@@ -2,7 +2,7 @@ package adrien.controllers;
 
 import java.io.IOException;
 
-import adrien.GameManager;
+import adrien.game.GameManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.BorderPane;
@@ -32,7 +32,7 @@ public class MainController {
             Pane mapView = loadView("/adrien/views/MapView.fxml");
             Pane resourcesView = loadView("/adrien/views/ResourcesView.fxml");
 
-            gameManager = new GameManager();
+            gameManager = GameManager.getInstance();
             gameManager.startGame();
 
 

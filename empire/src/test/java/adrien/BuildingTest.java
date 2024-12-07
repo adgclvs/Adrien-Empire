@@ -8,6 +8,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 import adrien.buildings.BuildingsManager.Building;
 import adrien.buildings.BuildingsManager.BuildingType;
+import adrien.buildings.BuildingsManager.Position;
+import adrien.game.Inhabitants;
 import adrien.resources.Resource;
 import adrien.resources.ResourceRequirement;
 import adrien.resources.ResourceType;

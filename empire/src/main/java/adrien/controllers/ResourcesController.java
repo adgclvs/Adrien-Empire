@@ -1,6 +1,6 @@
 package adrien.controllers;
 
-import adrien.Observer;
+import adrien.observers.Observer;
 import adrien.resources.Resource;
 import adrien.resources.ResourceType;
 import javafx.application.Platform;

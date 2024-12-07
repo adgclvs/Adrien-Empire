@@ -1,8 +1,14 @@
 package adrien.controllers;
 
-import adrien.*;
 import adrien.buildings.BuildingsManager.Building;
 import adrien.buildings.BuildingsManager.BuildingType;
+import adrien.buildings.BuildingsManager.Position;
+import adrien.game.GameManager;
+import adrien.game.ImageCache;
+import adrien.game.Inhabitants;
+import adrien.game.MapManager;
+import adrien.game.SharedState;
+import adrien.observers.Observer;
 import adrien.resources.ResourceRequirement;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
