@@ -1,7 +1,6 @@
 package adrien.buildings.BuildingsManager;
 
 import adrien.resources.*;
-import adrien.exceptions.CustomException;
 import adrien.exceptions.ResourceConsuptionException;
 import adrien.exceptions.ResourceProductionException;
 import adrien.exceptions.WorkerException;

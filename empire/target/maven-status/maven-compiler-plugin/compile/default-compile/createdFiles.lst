@@ -10,6 +10,7 @@ adrien/controllers/BuildingsController.class
 adrien/game/Inhabitants.class
 adrien/exceptions/BuildingException.class
 adrien/game/GameManager.class
+adrien/MainApp.class
 adrien/exceptions/WorkerException.class
 adrien/buildings/BuildingsManager/BuildingFactory.class
 adrien/game/MapManager.class
@@ -23,7 +24,6 @@ adrien/observers/Observable.class
 adrien/buildings/Quarry.class
 adrien/game/GameTimer.class
 adrien/buildings/BuildingsManager/BuildingFactory$1.class
-adrien/game/MainApp.class
 adrien/buildings/BuildingsManager/BuildingPrototypes$1.class
 adrien/game/SharedState.class
 adrien/buildings/ToolFactory.class

@@ -14,6 +14,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -88,6 +89,7 @@ public class MapController implements Observer {
             boolean added = gameManager.addBuilding(selectedBuildingType, col, row);
             if (added) {
                 System.out.println("Building placed at " + col + ", " + row);
+                BuildingsController.selectBuilding(null, null);
             } else {
                 System.out.println("Cannot place building here.");
             }
@@ -162,7 +164,7 @@ public class MapController implements Observer {
         typeLabel.setStyle("-fx-font-size: 14px;");
         generalInfoBox.getChildren().add(typeLabel);
     
-        Label workersLabel = new Label("Workers: " + building.getCurrentWorkers());
+        Label workersLabel = new Label("Workers: " + building.getCurrentWorkers() + " / " + building.getMaxWorkers());
         workersLabel.setStyle("-fx-font-size: 14px;");
         generalInfoBox.getChildren().add(workersLabel);
     
@@ -243,14 +245,18 @@ public class MapController implements Observer {
     
     // 7. Mise à jour des informations sur les travailleurs et la production
     private void updateWorkerInfo(Building building, VBox generalInfoBox, VBox productionBox) {
-        Label workersLabel = (Label) generalInfoBox.getChildren().get(1);
-        workersLabel.setText("Workers: " + building.getCurrentWorkers());
+        // Mettre à jour l'étiquette des travailleurs
+        for (Node node : generalInfoBox.getChildren()) {
+            if (node instanceof Label) {
+                Label label = (Label) node;
+                if (label.getText().startsWith("Workers:")) {
+                    label.setText("Workers: " + building.getCurrentWorkers() + " / " + building.getMaxWorkers());
+                }
+            }
+        }
     
+        // Mettre à jour la section de production
         updateProductionBox(building, productionBox);
-    
-        Label availableWorkersLabel = (Label) generalInfoBox.getChildren().get(3);
-        int availableWorkers = Inhabitants.getInstance().getNumberInhabitants() - Inhabitants.getInstance().getNumberWorkers();
-        availableWorkersLabel.setText("Available Workers: " + availableWorkers);
     }
     
     // 8. Positionnement de la popup

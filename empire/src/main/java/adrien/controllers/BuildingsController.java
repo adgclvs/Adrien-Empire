@@ -10,6 +10,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -32,6 +33,7 @@ public class BuildingsController implements Observer {
 
     private final Map<BuildingType, Popup> popups = new HashMap<>();
     private final Map<String, Label> resourceLabels = new HashMap<>();
+    private static ImageView selectedBuildingImageView;
 
     @FXML
     public void initialize() {
@@ -58,7 +60,7 @@ public class BuildingsController implements Observer {
 
             buildingImageView.setOnMouseEntered(event -> popup.show(buildingImageView, event.getScreenX() + GAP, event.getScreenY() + GAP));
             buildingImageView.setOnMouseExited(event -> popup.hide());
-            buildingImageView.setOnMouseClicked(event -> selectBuilding(buildingType));
+            buildingImageView.setOnMouseClicked(event -> selectBuilding(buildingType, buildingImageView));
 
             listBuildings.getChildren().add(buildingImageView);
             popups.put(buildingType, popup);
@@ -84,7 +86,30 @@ public class BuildingsController implements Observer {
      * Select a building
      * @param buildingType the type of the building
      */
-    private void selectBuilding(BuildingType buildingType) {
+    public static void selectBuilding(BuildingType buildingType, ImageView buildingImageView) {
+        // Réinitialiser l'effet visuel de l'ancien bâtiment sélectionné
+        if (selectedBuildingImageView != null) {
+            selectedBuildingImageView.setEffect(null);
+        }
+    
+        // Si aucun bâtiment n'est sélectionné, réinitialiser et retourner
+        if (buildingType == null) {
+            selectedBuildingImageView = null;
+            SharedState.setSelectedBuildingType(null);
+            return;
+        }
+    
+        // Appliquer un effet visuel au bâtiment sélectionné
+        DropShadow borderGlow = new DropShadow();
+        borderGlow.setColor(Color.RED);
+        borderGlow.setWidth(20);
+        borderGlow.setHeight(20);
+        buildingImageView.setEffect(borderGlow);
+    
+        // Mettre à jour la référence du bâtiment sélectionné
+        selectedBuildingImageView = buildingImageView;
+    
+        // Mettre à jour l'état partagé
         SharedState.setSelectedBuildingType(buildingType);
         System.out.println("Selected building: " + buildingType);
     }
