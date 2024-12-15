@@ -84,7 +84,6 @@ public class GameManager{
      * Updates resources, buildings and inhabitants
      */
     public void gameTick() {
-        System.out.println("Tick executed.");
         try {
 
             if (gameTimer.getCurrentTick() % 24 == 0 && gameTimer.getCurrentTick() > 0) {

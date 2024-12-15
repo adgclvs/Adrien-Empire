@@ -47,8 +47,6 @@ public class MapController implements Observer {
         if (gameManager != null) {
             initializeDecor();
             displayMap();
-        } else {
-            System.out.println("GameManager is not set.");
         }
     }
 
@@ -64,7 +62,6 @@ public class MapController implements Observer {
     public void setGameManager(GameManager gameManager) {
         this.gameManager = gameManager;
         MapManager.getInstance().addObserver(this);
-        System.out.println("GameManager set.");
     }
 
     /**
@@ -73,7 +70,6 @@ public class MapController implements Observer {
      * @param col
      */
     public void handleCellClick(int row, int col) {
-        System.out.println("Cell clicked: " + col + ", " + row);
         Position position = new Position(col, row);
         Building building = MapManager.getInstance().findBuilding(position);
 
@@ -88,7 +84,6 @@ public class MapController implements Observer {
         if (selectedBuildingType != null) {
             boolean added = gameManager.addBuilding(selectedBuildingType, col, row);
             if (added) {
-                System.out.println("Building placed at " + col + ", " + row);
                 BuildingsController.selectBuilding(null, null);
             } else {
                 System.out.println("Cannot place building here.");

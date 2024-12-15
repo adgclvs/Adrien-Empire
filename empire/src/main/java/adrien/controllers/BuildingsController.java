@@ -111,7 +111,6 @@ public class BuildingsController implements Observer {
     
         // Mettre à jour l'état partagé
         SharedState.setSelectedBuildingType(buildingType);
-        System.out.println("Selected building: " + buildingType);
     }
 
     /**

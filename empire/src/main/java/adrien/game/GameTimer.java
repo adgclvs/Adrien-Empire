@@ -34,7 +34,6 @@ public class GameTimer {
                 try {
                     Thread.sleep(tickDuration); // Attendre la durée d'un tick
                     currentTick++;
-                    System.out.println("Tick: " + currentTick);
 
                     // Notifier tous les listeners
                     for (Runnable listener : tickListeners) {
